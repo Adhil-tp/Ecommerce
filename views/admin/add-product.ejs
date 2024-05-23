@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head class="df jcc-and-aic">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="admin/css/add-product.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <header class="header df aic">
+    <div>
+      <h1>Graza</h1>
+    </div>
+    <div>
+      <button href="">Exit</button>
+    </div>
+  </header>
+  <div class="container df">
+    <div class="sidebar dfc">
+
+      <a class="f-22" href="products.html"> Products
+      </a>
+      <a class="add-category-form f-22" href="#"> Add category
+      </a>
+
+      <a class="f-22" href="accounts.ejs"> Accounts
+      </a>
+    </div>
+    <div class="content-side df jcc-and-aic ">
+      <form class="form dfc" method="post" action="/addProduct" enctype="multipart/form-data">
+        <div>
+          <h2 class="">Add Product</h2>
+        </div>
+        <div class="empty-form-error">Fill every fields to continue</div>
+        <div class="input-fields df">
+          <div class="left-side-inputs dfc">
+            <div class="fields dfc">
+              <label for="name">Product Name</label>
+              <input class="input" id="name" name="name" type="text" class="" />
+            </div>
+            <div class="fields dfc">
+              <label for="description">Description</label>
+              <textarea class="description" name="description" id="description" rows="3"></textarea>
+            </div>
+            <div class="fields dfc">
+              <label for="category">Category</label>
+              <select name="category" id="category">
+                <% categories.forEach(element=> { %>
+                  <option value="<%= element.name %>">
+                    <%= element.name %>
+                  </option>
+                  <% }) %>
+              </select>
+            </div>
+            <div class="fields dfc">
+              <label for="sub-category">Sub category</label>
+              <select name="subCategory" id="sub-category">
+                <% subCategories.forEach(element => { %>
+                 <option value="<= element._id %>"><%= element.name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="fields dfc">
+              <label for="collection">Collection</label>
+              <select name="collection" id="collection">
+                <% collections.forEach(element => { %>
+                 <option value="<%= element._id %>"><%= element.name %></option>
+                <% }) %>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="right-side-inputs dfc">
+            <div class="fields dfc">
+              <input class="input" type="file" id="mainImage" style="display:none;" name="productImage" />
+              <button type="button" class="show-selected">Choose main image of product</button>
+              <p class="main-image-name"></p>
+            </div>
+            <div class="fields dfc">
+              <input class="input" type="file" id="detailedImage" multiple style="display: none;" name="detailedImages">
+              <button type="button" class="show-detailed-selected">Select
+                detailed images</button>
+              <ul id="fileList"></ul>
+            </div>
+            <div class="fields dfc">
+
+              <label for="stock">Units In Stock</label>
+              <input class="input" id="stock" name="stock" type="text" class="" />
+            </div>
+            <div class="price df">
+              <div class="fields dfc">
+                <label for="price">Actual Price</label>
+                <input id="price" name="productPrice" type="text" class="" data-large-mode="true" />
+              </div>
+              <div class="fields dfc">
+                <label for="offer-price">Offer price</label>
+                <input id="offer-price" name="offerPrice" type="text" class="" data-large-mode="true" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button type="submit" class="add-product-button">Add Product Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="pop df jcc-and-aic">
+    <form class="add-popup dfc jcc-and-aic">
+      <div class="fields dfc">
+        <a class="close-add-category df jcc-and-aic" href="#">X</a>
+        <div class="cat dfc ">
+          <label for="category-name">Category</label>
+          <div class="category-area df">
+            <input name="categoryName" type="text" id="category-name" placeholder="create a category">
+            <button class="add-category" data-action="add">Add</button>
+          </div>
+          <div class="category-error">Enter a valid category name</div>
+        </div>
+
+
+        <div class="sub-cat dfc">
+          <label for="sub-category-name">Sub category</label>
+          <div class="sub-category-area">
+            <div class="df btn-input-fields">
+              <input name="subCategoryName" type="text" id="sub-category-name" placeholder="create a sub category">
+              <button class="add-sub-category">Add</button>
+            </div>
+            <div class="sub-cat-name-error" style="color:red; position: absolute;"></div>
+            <ul class="sub-category-list">
+              <!-- this is the place for some new sub categories -->
+            </ul>
+          </div>
+        </div>
+        <div class="collection-parent-field dfc">
+          <label for="collection-parent">Choose a sub category</label>
+          <select name="collection-parent" id="collection-parent-option">
+            <option value="" class="collection-default-option">Select one collection</option>
+          </select>
+        </div>
+        <div class="coll dfc">
+          <label for="collection-name">Collection</label>
+          <div class="collection-field dfc">
+            <div class="collection-input-field df">
+              <input name="collectionName" type="text" id="collection-name-input" placeholder="create a collection">
+              <button class="add-collection">Adddd</button>
+            </div>
+            <div style="color: red;" class="collection-error"></div>
+            <ul class="collection-list">
+              <!-- demo li to present how the li s align to the ul -->
+              <!-- <li class="collection" >name</li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <button type="" class="submit-category">Add category</button>
+      <div class="output"></div>
+    </form>
+  </div>
+
+  <div class="cat-form-close dfc jcc-and-aic">
+    <p>are you sure to cancel the operation ?</p>
+    <div class="cat-form-close-buttons df">
+      <button class="cat-close-no">No</button>
+      <button class="cat-close-yes">Yes</button>
+    </div>
+  </div>
+
+  <script src="admin/js/add-product.js"></script>
+</body>
+
+</html>
