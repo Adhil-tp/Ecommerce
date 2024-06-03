@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.f-22 {
+    font-size: 22px;
+}
+.jcs{
+    justify-content: start;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(52, 50, 50);
+}
+
+.df {
+    display: flex;
+}
+
+.dfc {
+    display: flex;
+    flex-direction: column;
+}
+
+.jcc-and-aic {
+    justify-content: center;
+    align-items: center;
+}
+.jcfs{
+    justify-content: flex-start;
+}
+
+.jcsb {
+    justify-content: space-between;
+}
+.jcsa {
+    justify-content: space-around;
+}
+.aic {
+    align-items: center;
+}
+
+.jcc {
+    justify-content: center;
+}
+
+.black {
+    background-color: black;
+}
+.gap{
+    gap:  10px;
+}
+
+.content-side {
+    height: calc(100vh - 5rem);
+    width:  calc(100vw - 12rem);
+    padding: 20px;
+}
+
+.red{
+    color: rgb(247, 43, 43);
+}

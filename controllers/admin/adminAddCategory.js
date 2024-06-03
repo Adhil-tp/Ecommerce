@@ -4,23 +4,8 @@ const collection = require('../../model/collection')
 const mongoose = require('mongoose')
 
 
-module.exports = adminController = {
-    getAddProduct: async (req, res) => {
-        try {
-            const categories = await category.find({ name: { $exists: true } })
-            console.log(typeof categories[0] )
-            console.log(categories[0]._id)
-            const categoryId = categories[0]._id.toString()
-            console.log('id ', categoryId)
-            const subCategories = await subCategory.find({categoryId : mongoose.Types.ObjectId.createFromHexString( categoryId)})
-            console.log(subCategories)
-            const subCategoryId = subCategories[0]._id.toString()
-            const collections = await collection.find({subCategoryId : mongoose.Types.ObjectId.createFromHexString(subCategoryId)})
-            res.render('admin/add-product', { categories , subCategories , collections })
-        } catch (err) {
-            console.log('get add product error ', err.message)
-        }
-    },
+module.exports = addCategoryController = {
+    
 
     //this api perform the actions to create a new category in the category collections 
     createCategory: async (req, res) => {
@@ -62,8 +47,8 @@ module.exports = adminController = {
         try {
             // console.log(req.session.newCategoryId)
             const newCategoryId = req.session.newCategoryId
-            const updatedCategoryName = req.params.categoryName.toUpperCase()
-            console.log('updated uppercase ' , updatedCategoryName)
+            const updatedCategoryName = req.params.categoryName.toUpperCase().trim()
+            // console.log('updated uppercase ' , updatedCategoryName)
             const foundedCategory = await category.findOne({ name: updatedCategoryName })
             if (!foundedCategory) {
                 try {
@@ -94,14 +79,18 @@ module.exports = adminController = {
         const getSubCategory = await subCategory.findOne({ name: subCategoryName.toUpperCase(), categoryId: req.session.newCategoryId })
         // console.log(getSubCategory)
         if (getSubCategory) {
-            console.log('found duplicate')
+            // console.log('found duplicate')
             return res.status(200).json({ error: true, message: "sub category name already exists" })
         }
         // console.log('doesn`t found duplicate')
         const newSubCategory = new subCategory({ name: subCategoryName.toUpperCase(), categoryId: req.session.newCategoryId })
         await newSubCategory.save()
         // console.log('typeof', typeof req.session.subCategories)
-        req.session.subCategories.push(newSubCategory._id.toString())
+        try{
+            req.session?.subCategories.push(newSubCategory._id.toString())
+        }catch(err){
+            console.log('cannot push ')
+        }
         // console.log('new created sub categories', req.session.subCategories)
 
         res.status(200).json({ error: false, message: "Sub category created succesfully.", subCategoryId: newSubCategory._id })
@@ -113,6 +102,7 @@ module.exports = adminController = {
     createCollection: async (req, res) => {
         try {
             const { collectionName, chosenSubCategoryId } = req.params
+            console.log('first' , req.session.newCategoryId)
             // console.log('this is new collection name and chosen sub cat id', collectionName, chosenSubCategoryId)
             const findCollection = await collection.findOne({
                 name: collectionName.toUpperCase(),
@@ -131,8 +121,8 @@ module.exports = adminController = {
             }
             res.status(200).json({ error: true, message: "collection with same name exists" })
         } catch (err) {
+            console.log('error occured while creating collection', err.message)
             res.status(404).json({ error: true, message: "server error 404" })
-            // console.log('error occured while creating collection', err.message)
         }
     },
 
@@ -166,9 +156,6 @@ module.exports = adminController = {
         }
     },
 
-    checking: (req, res) => {
-        // console.log(req.body)
-    },
     fetchAllCategories: (req, res) => {
         const categories = category.find({ name: { $exists: true } })
         // console.log('categories ', categories)

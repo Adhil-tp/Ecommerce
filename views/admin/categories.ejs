@@ -1,0 +1,70 @@
+<%- include('./partials/header') %>
+  <div class="categories-container df">
+    <div class="categories">
+      <% categories.forEach(element=> { %>
+        <div class="category df jcsa jcc-and-aic">
+          <h2 class="CategoyName">
+            <%= element.name%>
+          </h2>
+          <div class="category-options df gap">
+            <button class="edit-category" data-Id="<%= element._id %>">Edit</button>
+            <button class="delete-category" data-Id="<%= element._id %>">Delete</button>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+  </div>
+  <div class="category-edit-container jcc-and-aic">
+    <form action="" class="form df jcc-and-aic">
+      <div class="left-side-form dfc jcsb gap">
+        <div class="jcfs dfc gap">
+          <div class="gap dfc">
+            <label for="category-name">Category Name</label>
+            <input type="text" name="" value="categoryname" id="category-name">
+          </div>
+          <div class="add-sub-container gap dfc">
+            <label for="new-sub-category">Add subcategory</label>
+            <div class="sub-add df jcc-and-aic gap">
+              <input type="text" class="new-sub-category" id="new-sub-category" placeholder="new sub">
+              <button class="add-sub" type="button">Add</button>
+            </div>
+          </div>
+          <div class="gap dfc">
+            <label for="">Sub categories</label>
+            <ul class="sub-categories">
+              <!-- <li value="${element._id}">
+                <div class="df jcc-and-aic">
+                  <input type="radio" name="sub" id="collection-sub-category" value="${element._id}">
+                  <input type="text" value="${element.name}">
+                </div>
+                <div class="df gap">
+                  <button>Edit</button>
+                  <button>delete</button>
+                </div>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <div class="right-side-form  dfc gap jcsb">
+        <div class="dfc gap ">
+          <label for="">Collections</label>
+          <div class="add-coll-container gap dfc">
+            <label for="new-collection">Add new collection</label>
+            <div class="coll-add jcc-and-aic gap">
+              <input type="text" class="new-collection" id="new-collection" placeholder="New collection name">
+              <button class="add-collection" type="button">Add</button>
+            </div>
+          </div>
+          <ul class="collections">
+            <li class="choose-one-label">
+              <p>choose one sub category</p>
+            </li>
+          </ul>
+        </div>
+        <p class="coll-error"></p>
+      </div>
+    </form>
+  </div>
+  <%- include('./partials/footer') %>

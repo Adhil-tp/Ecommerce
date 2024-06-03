@@ -1,4 +1,4 @@
-const userRouter = require('./routers/adminRouter/adminRouter')
+const adminRouter = require('./routers/adminRouter/adminRouter')
 
 const session = require('express-session')
 const path = require('path')
@@ -29,18 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.set('view engine', 'ejs')
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '/public/images/products'))
-    },
-    filename: (req, file, cb) => {
-        console.log('img file', file)
-        cb(null, `${file.fieldname}-${Date.now()}`)
-    }
-})
-
-const products = multer({ storage })
-
 
 //! mongo db connecting
 
@@ -50,12 +38,8 @@ mongoose.connect(MongoURL)
 
 
 
-app.use('/' , userRouter )
-app.post('/addProduct', products.fields([{ name: 'productImage', maxCount: 1 }, { name: 'detailedImages', maxCount: 4 }]), (req, res) => {
-    console.log('this is file ', req.files)
-    console.log('this is body', req.body)
-    res.send('done')
-})
+app.use('/admin', adminRouter)
+
 
 app.listen(port, () => {
     console.log(`server is running in http://localhost:${port}/addProduct`)

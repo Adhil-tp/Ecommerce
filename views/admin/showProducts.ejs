@@ -1,0 +1,63 @@
+<%-include('partials/header')%>
+    <div class="heading df">
+        <h1>Products</h1>
+    </div>
+    <div class="search-product dfc">
+
+        <!-- search bar -->
+        <div class="search-bar df jcsb">
+            <input type="search" name="" id="search-product" placeholder="Search a product">
+            <div>
+                <select name="category" id="search-category">
+                    <option value="all">All</option>
+                    <% if (categories) { %>
+                        <% categories.forEach(element=> { %>
+                            <option value="<%= element._id %>">
+                                <%= element.name %>
+                            </option>
+                            <% }) %>
+                                <% } %>
+                </select>
+            </div>
+        </div>
+
+        <!-- products  -->
+
+            <div class="products">
+                <% if (products) { %>
+                <% products.forEach(element=> { %>
+                    <div class="product dfc" data-Id="<%= element._id %>">
+                        <div>
+                            <img src="/images/products/<%= element.mainImage %>"
+                            style="object-fit: cover; width: 100%; height: 100%;" alt="">
+                        </div>
+                        <div>
+                            <h4>
+                                <%= element.name %>
+                            </h4>
+                            <div class="df gap">
+                                <% if (element.offerPrice) { %>
+                                    <h3>
+                                        <%= element.price%>
+                                    </h3>
+                                    <h3><del class="red">
+                                        <%= element.price %>
+                                    </del></h3>
+                                    <% }else { %>
+                                        <h3>
+                                            <%= element.price %>
+                                        </h3>
+                                        <% } %>
+                                    </div>
+                        </div>
+                        <div class="product-buttons df">
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </div>
+                    </div>
+                    <% }) %>
+                    <% } %>
+                    
+                </div>
+            </div>
+    <%-include('partials/footer')%>

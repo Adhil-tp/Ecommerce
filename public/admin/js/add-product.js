@@ -16,13 +16,14 @@ let isCatAdded = isSubAdded = isCollAdded = false
 
 //add category
 
+const productForm = document.querySelector('.form')
 const submitCategory = document.querySelector('.submit-category')
 const showSelected = document.querySelector('.show-selected')
 const detailedImage = document.getElementById('detailedImage');
 const fileList = document.getElementById('fileList');
+const mainImageList = document.querySelector('.main-image-name')
 const showDetailedSelected = document.querySelector('.show-detailed-selected')
 const mainImageName = document.getElementById('mainImage')
-const addProduct = document.querySelector('.add-product-button')
 const showCategoryForm = document.querySelector('.add-category-form')
 const closeAddCategory = document.querySelector('.close-add-category')
 const addCategoryForm = document.querySelector('.pop')
@@ -51,7 +52,12 @@ const output = document.querySelector('.output')
 
 //add product
 
-const category = document.getElementById('category')
+const addProduct = document.querySelector('.add-product-button')
+const categorySelect = document.getElementById('category')
+const subCategorySelect = document.getElementById('sub-category')
+const collectionSelect = document.getElementById('collection')
+
+
 
 //this is to make the subcategory and collections to set disabled 
 subCategoryInput.disabled = true
@@ -65,7 +71,7 @@ collectionParentSelect.disabled = true
 //-------------------------------------------------------------------------------------------------------------------------------------
 
 const deleteEverything = () => {
-    axios.post('/api/deleteUnsavedCategory', dataObject)
+    axios.post('/admin/api/deleteUnsavedCategory', dataObject)
         .then(response => {
             const data = response.data
             if (!data.error) {
@@ -101,11 +107,15 @@ submitCategory.addEventListener('click', (event) => {
         isDataSaved = true
         const category = document.getElementById('category')
         const categoryOption = document.createElement('option')
-        categoryOption.value = dataObject.categoryName
+        categoryOption.textContent = dataObject.categoryName.toUpperCase()
+        categoryOption.value = dataObject.categoryId
         category.appendChild(categoryOption)
         return
     }
+
+    console.log('reached warning area')
     output.textContent = 'add every fields'
+    output.style.display = 'flex'
     output.style.color = 'red'
     addCategoryForm.style.display = 'flex'
     setTimeout(() => {
@@ -126,9 +136,9 @@ addCategory.addEventListener('click', async (event) => {
     console.log('button action is ', addCategory.dataset.action)
     if (addCategory.dataset.action == 'edit') {
         console.log('reaching editing context')
-        axios.post(`/api/changeCategoryName/${encodeURIComponent(categoryName)}`)
-        .then(response => {
-            const data = response.data
+        axios.post(`/admin/api/changeCategoryName/${encodeURIComponent(categoryName)}`)
+            .then(response => {
+                const data = response.data
                 if (data.error) {
                     console.log('Here')
                     categoryError.style.display = 'block'
@@ -136,7 +146,7 @@ addCategory.addEventListener('click', async (event) => {
                     addCategoryForm.style.display = 'flex'
                     setTimeout(() => {
                         categoryError.style.display = 'none'
-                    categoryError.textContent = ''
+                        categoryError.textContent = ''
                     }, 1500);
                     return
                 } else if (!data.error) {
@@ -150,7 +160,7 @@ addCategory.addEventListener('click', async (event) => {
                     setTimeout(() => {
                         output.style.display = 'none'
                     }, 2000)
-                    
+
                     dataObject.categoryId = data.categoryId
                     console.log('dataObject category id ', dataObject)
                     return
@@ -171,7 +181,7 @@ addCategory.addEventListener('click', async (event) => {
         return
     }
 
-    const url = `/api/createCategory/${encodeURIComponent(categoryName)}`
+    const url = `/admin/api/createCategory/${encodeURIComponent(categoryName)}`
     console.log('api url ', url)
     try {
         const result = await fetch(url, { method: "POST" })
@@ -189,7 +199,7 @@ addCategory.addEventListener('click', async (event) => {
             output.textContent = data.message
             output.style.display = 'block'
             isCatAdded = true
-            console.log(isCatAdded  , isSubAdded , isCollAdded)
+            console.log(isCatAdded, isSubAdded, isCollAdded)
             subCategoryInput.disabled = false
             dataObject.categoryName = categoryName
             addCategory.dataset.action = 'edit'
@@ -197,7 +207,7 @@ addCategory.addEventListener('click', async (event) => {
             setTimeout(() => {
                 output.style.display = 'none'
             }, 2000)
-            
+
             dataObject.categoryId = data.categoryId
             console.log('dataObject category id ', dataObject)
         }
@@ -224,7 +234,7 @@ addSubcategory.addEventListener('click', (event) => {
     }
     //this api will create  a sub category if there is no sub category with the name given
 
-    axios.post(`/api/addSubCategory/${encodeURIComponent(subCategoryValue)}`)
+    axios.post(`/admin/api/addSubCategory/${encodeURIComponent(subCategoryValue)}`)
         .then(response => {
             const data = response.data
             console.log('response ', data)
@@ -295,7 +305,7 @@ addCollection.addEventListener('click', (event) => {
     }
 
     const choosenSubCategry = document.querySelector('#collection-parent-option').value
-    axios.post(`/api/createCollection/${encodeURIComponent(collectionNameInput)}/${encodeURIComponent(choosenSubCategry)}`)
+    axios.post(`/admin/api/createCollection/${encodeURIComponent(collectionNameInput)}/${encodeURIComponent(choosenSubCategry)}`)
         .then(response => {
             const data = response.data
             if (data.error) {
@@ -338,7 +348,7 @@ collectionParentSelect.addEventListener('change', () => {
     collectionList.innerHTML = ''
     const chosenCollectionParent = document.getElementById('collection-parent-option').value
     console.log('this is the id sending to change category api', chosenCollectionParent)
-    axios.post(`/api/changeSubCategory/${encodeURIComponent(chosenCollectionParent)}`)
+    axios.get(`/admin/api/changeSubCategory/${encodeURIComponent(chosenCollectionParent)}`)
         .then(response => {
             const data = response.data
             console.log('this is the data got from the change category api', data)
@@ -358,32 +368,263 @@ collectionParentSelect.addEventListener('change', () => {
 
 
 
-
 // -------------------------------------------------------------------------------------------------------------------------------
 
-addProduct.addEventListener('click', (event) => {
-    const nameInput = document.querySelector('.input').value
+
+function removeError(element, changingValue) {
+    setTimeout(() => {
+        element.style.display = 'none'
+        element.textContent = changingValue
+    }, 1500);
+    return
+}
+
+
+const images = {
+    mainImage: undefined,
+    images: []
+}
+
+addProduct.addEventListener('click', async (event) => {
+    event.preventDefault()
+    const nameValue = document.querySelector('.input').value
     const description = document.querySelector('.description').value
     const category = document.getElementById('category').value
-    const subCategoryValue = document.getElementById('sub-category').value
-    const collectionValue = document.getElementById('collection').value
+    const subCategory = document.getElementById('sub-category').value
+    const collection = document.getElementById('collection').value
     const mainImage = document.querySelector('#mainImage').files
     const detailedImage = document.querySelector('#detailedImage').files
-    const stock = document.querySelector('#stock').value
-    const price = document.querySelector('#price').value
-    const offerPrice = document.querySelector('#offer-price').value
+    const color = document.querySelector('#color').value
+    const size = document.querySelector('#size').value
+    const delWithin  = document.querySelector('#del-within').value
+    let stock = document.querySelector('#stock').value
+    let price = document.querySelector('#price').value
+    let offerPrice = document.querySelector('#offer-price').value
+
+
+
     const emptyFormError = document.querySelector('.empty-form-error')
 
 
+    const nameError = document.querySelector('.name-empty')
+    const descError = document.querySelector('.desc-empty')
+    const imageError = document.querySelector('.image-empty')
+    const mulImagesError = document.querySelector('.multiple-img-empty')
+    const stockError = document.querySelector('.stock-empty')
+    const priceError = document.querySelector('.price-empty')
+    const offerPriceError = document.querySelector('.offer-price-empty')
+
+    const errors = {
+        nameError: false,
+        descError: false,
+        mainImageError: false,
+        multipleImageError: false,
+        priceError: false,
+        stockError: false,
+        delWithinError : false
+    }
 
     emptyFormError.style.display = 'none'
 
-    console.log(nameInput, description, category, subCategoryValue, collectionValue, mainImage, detailedImage, stock, price, offerPrice)
 
-    if (nameInput || description || category || subCategoryValue || collectionValue || mainImage || detailedImage || stock || price || offerPrice == null) {
+    if (mainImage.length == 0 && detailedImage.length == 0 && !nameValue && !description && !stock && !price && !offerPrice) {
         emptyFormError.style.display = 'block'
-        return event.preventDefault()
+        return removeError(emptyFormError)
     }
+
+
+    //name validation
+    if (nameValue == '') {
+        nameError.style.display = 'block'
+        // console.log('name error')
+        removeError(nameError)
+        errors.nameError = true
+    } else if (nameValue.length < 3) {
+        nameError.textContent = 'name must be atleast 3 letters'
+        nameError.style.display = 'block'
+        removeError(nameError, 'Name is required')
+        errors.nameError = true
+    }
+
+    //desc validation 
+
+    if (description == '') {
+        descError.style.display = 'block'
+        removeError(descError)
+        errors.descError = true
+    } else if (description.length < 20) {
+        descError.style.display = 'block'
+        descError.textContent = 'brief description required'
+        removeError(descError, 'Description is required')
+        errors.descError = true
+    }
+
+
+    //main image validation 
+
+    // console.log(images)
+
+    if (!images.mainImage) {
+        console.log('reached image error')
+        imageError.style.display = 'block'
+        removeError(imageError, imageError.textContent)
+        errors.mainImageError = true
+    }
+
+    //multiple image error  validation
+
+    if (images.images.length < 3) {
+        mulImagesError.style.display = 'block'
+        console.log('error when showing mul image error')
+        removeError(mulImagesError, mulImagesError.textContent)
+        errors.multipleImageError = true
+    }
+
+    //stock validation
+
+    stock = +stock
+
+    if(!stock){
+        stockError.style.display  = 'block'
+        const defaultError = stockError.textContent
+        stockError.textContent = 'Enter a valid stock number'
+        removeError(stockError , defaultError)
+        errors.stockError = true
+    }
+
+    // price validation 
+    // console.log( +price)
+    price = +price
+    if (!price) {
+        console.log('price', typeof price)
+        console.log('displaying error')
+        // console.log('ater price', typeof price)
+        const defaultError = priceError.textContent
+        priceError.style.display = 'block'
+        priceError.textContent = 'Enter a valid number'
+        removeError(priceError, defaultError)
+        errors.priceError = true
+    }
+
+    offerPrice = +offerPrice
+
+    if(!offerPrice){
+        if(offerPrice != 0){
+            console.log('displaying ofr error')
+            offerPriceError.style.display = 'block'
+            removeError(offerPriceError , offerPriceError.textContent)
+        }
+    }
+
+    //del within validation
+
+    if(!delWithin){
+        errors.delWithinError = true
+    }
+
+    if (errors.nameError
+        || errors.descError
+        || errors.mainImageError
+        || errors.multipleImageError
+        || errors.priceError
+        || errors.stockError
+    ) {
+        console.log('error occured')
+        console.log(errors)
+        return
+    }
+
+    const formData = new FormData()
+
+    console.log('main image ', mainImage)
+    console.log('detailed image ', detailedImage)
+
+
+    const productDetails = {
+        name: nameValue,
+        description: description,
+        category,
+        subCategory,
+        collection,
+        price,
+        offerPrice,
+        stock,
+        color ,
+        size,
+        deliveryWithin : delWithin
+    }
+
+    const productDetailsArray = Object.entries(productDetails)
+    productDetailsArray.forEach(elem => {
+        formData.append(elem[0], elem[1])
+    })
+
+    formData.append('productImage', images.mainImage)
+    images.images.forEach(elem => {
+        formData.append('detailedImages', elem)
+    })
+
+    console.log(formData)
+
+    const response = await axios.post('/admin/api/addProduct', formData, {
+        headers: {
+            'Content-type': 'multipart/form-data'
+        }
+    })
+    console.log(response.data)
+    const data = response.data
+    if (data.error) {
+        if (data.errorObj.emptyImage) {
+            imageError.style.display = 'block'
+            imageError.textContent = data.errorObj.emptyImage
+            removeError(imageError, imageError.textContent)
+        }
+        if (data.errorObj.nameError) {
+            nameError.style.display = 'block'
+            removeError(nameError, nameError.textContent)
+        }
+        if (data.errorObj.descError) {
+            descError.style.display = 'block'
+            removeError(descError, descError.textContent)
+        }
+        if (data.errorObj.imagesError) {
+            mulImagesError.style.display = 'block'
+            removeError(mulImagesError, imageError.textContent)
+        }
+        if (data.errorObj.stockError) {
+            stockError.style.display = 'block'
+            removeError(stockError, stockError.textContent)
+        }
+        if (data.errorObj.priceError) {
+            console.log('reached price in server')
+            const defaultError = priceError.textContent
+            priceError.style.display = 'block'
+            priceError.textContent = data.errorObj.priceError
+            removeError(priceError, defaultError)
+        }
+        return
+    }
+
+    
+    
+    // Array.from(productForm.elements).forEach(elem => {
+    //     if(elem.tagName != 'SELECT'){
+    //         console.log(elem)
+    //         elem.value = ''
+    //     }
+    //     if(input['type']==file){
+    //         input.files
+    //     }
+    // })
+    console.log('images' , mainImage)
+    console.log('images' , detailedImage)
+    images.mainImage = null
+    images.images = []
+    fileList.textContent = ''
+    mainImageList.innerHTML = ''
+    productForm.reset()
+
+
 })
 
 // sub choosing category 
@@ -393,6 +634,10 @@ addProduct.addEventListener('click', (event) => {
 
 showCategoryForm.addEventListener('click', (event) => {
     event.preventDefault()
+    isCatAdded = isSubAdded = isCollAdded = false
+    addCategory.dataset.action = 'add'
+    addCategory.textContent = 'Add'
+    addCategory.disabled = false
     const categoryInput = document.getElementById('category-name')
     categoryInput.disabled = false
     collectionParentSelect.disabled = true
@@ -409,11 +654,15 @@ showCategoryForm.addEventListener('click', (event) => {
 
 // ------------------------------------------------------------------------------------------------------------------------------------
 closeAddCategory.addEventListener('click', () => {
-    catFormCloseConfirmation.style.display = 'flex'
-    categoryAddForm.disabled = true
-    Array.from(categoryAddForm.elements).forEach(element => {
-        element.disabled = true
-    })
+    if (isCatAdded || isSubAdded || isCollAdded) {
+        catFormCloseConfirmation.style.display = 'flex'
+        categoryAddForm.disabled = true
+        Array.from(categoryAddForm.elements).forEach(element => {
+            element.disabled = true
+        })
+        return
+    }
+    addCategoryForm.style.display = 'none'
 })
 
 catFormCloseNo.addEventListener('click', () => {
@@ -441,13 +690,14 @@ mainImageName.addEventListener('change', (event) => {
     const files = event.target.files
     console.log(files)
     document.querySelector('.main-image-name').textContent = files[0].name
+    images.mainImage = files[0]
 })
 showDetailedSelected.addEventListener('click', (event) => {
     return detailedImage.click()
 })
 detailedImage.addEventListener('change', (event) => {
     const files = event.target.files;
-    console.log('this is files in ', files)
+    console.log('this is files in ', files[0])
 
     // Iterate through selected files and create list items
     for (const file of files) {
@@ -455,6 +705,8 @@ detailedImage.addEventListener('change', (event) => {
         listItem.classList = 'selected-images'
         listItem.textContent = file.name;
         fileList.appendChild(listItem);
+        images.images.push(file)
+        // console.log('these are images ', images.images)
     }
 });
 
@@ -492,7 +744,53 @@ window.addEventListener('beforeunload', isDataSavedCheck)
 
 // add products 
 
-category.addEventListener('change', () => {
+categorySelect.addEventListener('change', () => {
     console.log(category.value)
-    axios.get(`/api/categorySelect/${encodeURIComponent(category.value)}`)
+    axios.get(`/admin/api/categorySelect/${encodeURIComponent(category.value)}`)
+        .then(response => {
+            const data = response.data
+            console.log(data)
+            if (!data.error) {
+                const foundedSubCats = data.foundedSubCats
+                subCategorySelect.innerHTML = ''
+                foundedSubCats.forEach(element => {
+                    const subCat = document.createElement('option')
+                    subCat.value = element._id
+                    subCat.textContent = element.name
+                    subCategorySelect.appendChild(subCat)
+                })
+                const foundedCollections = data.foundedCollections
+                collectionSelect.innerHTML = ''
+                console.log(foundedCollections)
+                foundedCollections.forEach(element => {
+                    const coll = document.createElement('option')
+                    coll.value = element._id
+                    coll.textContent = element.name
+                    collectionSelect.appendChild(coll)
+                })
+            }
+        }).catch(err => {
+            console.log('something went wrong while chosing category')
+        })
+})
+
+subCategorySelect.addEventListener('change', () => {
+    console.log(subCategorySelect.value)
+    axios.get(`/admin/api/subCategorySelect/${encodeURIComponent(subCategorySelect.value)}`)
+        .then(response => {
+            const data = response.data
+            if (!data.error) {
+                const foundedSubCategories = data.foundedSubCategories
+                collectionSelect.innerHTML = ''
+                foundedSubCategories.forEach(element => {
+                    const coll = document.createElement('option')
+                    coll.value = element._id
+                    coll.textContent = element.name
+                    collectionSelect.appendChild(coll)
+                })
+            }
+        })
+        .catch(err => {
+            console.log('somethig happened while chosing sub ')
+        })
 })

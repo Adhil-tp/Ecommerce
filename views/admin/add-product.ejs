@@ -1,115 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head class="df jcc-and-aic">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="admin/css/add-product.css">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
-
-<body>
-  <header class="header df aic">
-    <div>
-      <h1>Graza</h1>
-    </div>
-    <div>
-      <button href="">Exit</button>
-    </div>
-  </header>
-  <div class="container df">
-    <div class="sidebar dfc">
-
-      <a class="f-22" href="products.html"> Products
-      </a>
-      <a class="add-category-form f-22" href="#"> Add category
-      </a>
-
-      <a class="f-22" href="accounts.ejs"> Accounts
-      </a>
-    </div>
+<%- include('./partials/header.ejs') %>
     <div class="content-side df jcc-and-aic ">
-      <form class="form dfc" method="post" action="/addProduct" enctype="multipart/form-data">
-        <div>
+      <form class="form dfc"  enctype="multipart/form-data">
+        <div class="df jcsb">
           <h2 class="">Add Product</h2>
+          <a class="add-category-form f-22" href="#">Add category</a>
         </div>
         <div class="empty-form-error">Fill every fields to continue</div>
         <div class="input-fields df">
           <div class="left-side-inputs dfc">
             <div class="fields dfc">
-              <label for="name">Product Name</label>
-              <input class="input" id="name" name="name" type="text" class="" />
+              <label for="name">Product Name<span class="red">*</span> <span class="name-empty error red">Name is
+                  required</span></label>
+              <input class="input" id="name" name="name" type="text" class="" value="" />
             </div>
             <div class="fields dfc">
-              <label for="description">Description</label>
+              <label for="description">Description<span class="red">*</span><span
+                  class="desc-empty error red">Description is required</span></label>
               <textarea class="description" name="description" id="description" rows="3"></textarea>
             </div>
             <div class="fields dfc">
-              <label for="category">Category</label>
+              <label for="category">Category<span class="red">*</span></label>
               <select name="category" id="category">
                 <% categories.forEach(element=> { %>
-                  <option value="<%= element.name %>">
+                  <option value="<%= element._id %>">
                     <%= element.name %>
                   </option>
                   <% }) %>
               </select>
             </div>
             <div class="fields dfc">
-              <label for="sub-category">Sub category</label>
+              <label for="sub-category">Sub category<span class="red">*</span></label>
               <select name="subCategory" id="sub-category">
-                <% subCategories.forEach(element => { %>
-                 <option value="<= element._id %>"><%= element.name %></option>
-                <% }) %>
+                <% subCategories.forEach(element=> { %>
+                  <option value="<%= element._id %>">
+                    <%= element.name %>
+                  </option>
+                  <% }) %>
               </select>
             </div>
             <div class="fields dfc">
-              <label for="collection">Collection</label>
+              <label for="collection">Collection<span class="red">*</span></label>
               <select name="collection" id="collection">
-                <% collections.forEach(element => { %>
-                 <option value="<%= element._id %>"><%= element.name %></option>
-                <% }) %>
+
+                <% collections.forEach(element=> { %>
+                  <option value="<%= element._id %>">
+                    <%= element.name %>
+                  </option>
+                  <% }) %>
               </select>
+            </div>
+            <div class="return df aic">
+              <label for="return">Return Policy</label>
+              <input type="checkbox" name="" id="return">
             </div>
           </div>
 
 
           <div class="right-side-inputs dfc">
             <div class="fields dfc">
+              <span class="image-empty error red">Choose a image</span>
               <input class="input" type="file" id="mainImage" style="display:none;" name="productImage" />
-              <button type="button" class="show-selected">Choose main image of product</button>
+              <button type="button" class="show-selected">Choose main image of product<span class="red">*</span>
+              </button>
               <p class="main-image-name"></p>
             </div>
             <div class="fields dfc">
+              <span class="multiple-img-empty error red">Choose atleast three image</span>
               <input class="input" type="file" id="detailedImage" multiple style="display: none;" name="detailedImages">
-              <button type="button" class="show-detailed-selected">Select
-                detailed images</button>
+              <button type="button" class="show-detailed-selected">Select detailed images<span
+                  class="red">*</span></button>
               <ul id="fileList"></ul>
             </div>
             <div class="fields dfc">
 
-              <label for="stock">Units In Stock</label>
-              <input class="input" id="stock" name="stock" type="text" class="" />
+              <label for="stock">Units In Stock<span class="red">*</span><span class="stock-empty error red">This field
+                  is required</span></label>
+              <input class="input" id="stock" name="stock" type="number" value="" class="" />
             </div>
-            <div class="price df">
-              <div class="fields dfc">
-                <label for="price">Actual Price</label>
-                <input id="price" name="productPrice" type="text" class="" data-large-mode="true" />
+            <div class="price dfc">
+              <div class="df" style="gap: 10px;">
+                <div class="fields dfc">
+                  <label for="price">Price<span class="red">*</span></label>
+                  <input id="price" name="productPrice" type="number" class=""  value="" />
+                </div>
+                <div class="fields dfc">
+                  <label for="offer-price">Offer price</label>
+                  <input id="offer-price" name="offerPrice" type="number" class=""  />
+                </div>
               </div>
-              <div class="fields dfc">
-                <label for="offer-price">Offer price</label>
-                <input id="offer-price" name="offerPrice" type="text" class="" data-large-mode="true" />
+              <div class="df gap">
+                <span class="price-empty error red">Price is required</span>
+                <span class='offer-price-empty error red'>Enter a number</span>
               </div>
             </div>
+            <div class="color-size dfc">
+              <div class="df" style="gap: 10px;">
+                <div class="color gap dfc">
+                  <label for="color">Color<span class="red">*</span></label>
+                  <select name="color" id="color">
+                    <option value="red">Red</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="white">White</option>
+                    <option value="black">Black</option>
+                  </select>
+                </div>
+                <div class="size gap dfc">
+                  <label for="size">Size</label>
+                  <select name="size" id="size">
+                    <option value="XS">XS</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="fields dfc gap">
+              <label for="del-within">Delivery with in</label>
+              <input type="number" name="delWithin" id="del-within" placeholder="delivery with in (days)">
+            </div>
+            
           </div>
         </div>
-        <div>
+        <div class="dfc jcc-and-aic">
           <button type="submit" class="add-product-button">Add Product Now</button>
         </div>
       </form>
     </div>
   </div>
-  <div class="pop df jcc-and-aic">
+  <div class="pop  jcc-and-aic">
     <form class="add-popup dfc jcc-and-aic">
       <div class="fields dfc">
         <a class="close-add-category df jcc-and-aic" href="#">X</a>
@@ -162,15 +185,11 @@
     </form>
   </div>
 
-  <div class="cat-form-close dfc jcc-and-aic">
+  <div class="cat-form-close jcc-and-aic">
     <p>are you sure to cancel the operation ?</p>
     <div class="cat-form-close-buttons df">
       <button class="cat-close-no">No</button>
       <button class="cat-close-yes">Yes</button>
     </div>
   </div>
-
-  <script src="admin/js/add-product.js"></script>
-</body>
-
-</html>
+<%- include('./partials/footer') %>
