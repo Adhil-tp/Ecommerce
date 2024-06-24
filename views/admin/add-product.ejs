@@ -1,7 +1,7 @@
 <%- include('./partials/header.ejs') %>
-    <div class="content-side df jcc-and-aic ">
+    <!-- <div class="content-side df jcc-and-aic "> -->
       <form class="form dfc"  enctype="multipart/form-data">
-        <div class="df jcsb">
+        <div class="form-head df jcsb">
           <h2 class="">Add Product</h2>
           <a class="add-category-form f-22" href="#">Add category</a>
         </div>
@@ -104,6 +104,9 @@
                     <option value="blue">Blue</option>
                     <option value="white">White</option>
                     <option value="black">Black</option>
+                    <option value="olive">Olive</option>
+                    <option value="skyblue">Sky blue</option>
+                    <option value="other">Others</option>
                   </select>
                 </div>
                 <div class="size gap dfc">
@@ -130,12 +133,12 @@
           <button type="submit" class="add-product-button">Add Product Now</button>
         </div>
       </form>
-    </div>
+    <!-- </div> -->
   </div>
   <div class="pop  jcc-and-aic">
     <form class="add-popup dfc jcc-and-aic">
       <div class="fields dfc">
-        <a class="close-add-category df jcc-and-aic" href="#">X</a>
+        <a class="close-add-category df jcc-and-aic " href="#">X</a>
         <div class="cat dfc ">
           <label for="category-name">Category</label>
           <div class="category-area df">
@@ -170,7 +173,7 @@
           <div class="collection-field dfc">
             <div class="collection-input-field df">
               <input name="collectionName" type="text" id="collection-name-input" placeholder="create a collection">
-              <button class="add-collection">Adddd</button>
+              <button class="add-collection">Add</button>
             </div>
             <div style="color: red;" class="collection-error"></div>
             <ul class="collection-list">

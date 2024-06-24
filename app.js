@@ -1,4 +1,5 @@
 const adminRouter = require('./routers/adminRouter/adminRouter')
+const userRouter = require('./routers/userRouter/userRouter')
 
 const session = require('express-session')
 const path = require('path')
@@ -39,6 +40,7 @@ mongoose.connect(MongoURL)
 
 
 app.use('/admin', adminRouter)
+app.use('/user', userRouter)
 
 
 app.listen(port, () => {

@@ -1,0 +1,10 @@
+.product-details p{
+    color: white;
+}
+
+.product-details p:hover{
+    color: #b19361;
+}
+.product{
+    width: 100%;
+}

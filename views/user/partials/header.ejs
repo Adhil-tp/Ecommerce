@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Graza store</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="shortcut icon" href="/user/images/favicon.ico" type="image/png">
+    <link rel="stylesheet" href="/user/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="/user/css/style.min.css">
+    <link rel="stylesheet" href="/user/css/<%= title %>.css">
+    <link rel="stylesheet" href="/user/css/header.css">
+</head>
+
+<body>
+    <!-- Start Header Area -->
+    <header class="header-section d-xl-block">
+        <div class="header-wrapper">
+            <div class="header-bottom header-bottom-color--golden section-fluid sticky-header sticky-color--golden">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 d-flex align-items-center justify-content-between">
+                            <!-- Start Header Logo -->
+                            <div class="header-logo">
+                                <div class="logo">
+                                    <a href="index.html"><h2>Graza</h2></a>
+                                </div>
+                            </div>
+                            <!-- End Header Logo -->
+
+                            <!-- Start Header Main Menu -->
+                            <div class="main-menu menu-color--black menu-hover-color--golden">
+                                <nav>
+                                    <ul class="category-header">
+                                        <li>
+                                            <a href="/user/home">Home</a>
+                                        </li>
+                                        <li class="has-dropdown has-megaitem">
+                                            <a href="product-details-default.html">Shop <i
+                                                    class="fa fa-angle-down"></i></a>
+                                            <!-- Mega Menu -->
+                                            <div class="mega-menu">
+                                                <ul class="mega-menu-inner">
+                                                    
+                                                    <% if (categories) { %>
+                                                     <% categories.forEach(category => { %>
+                                                        <li class="mega-menu-item">
+                                                            <a href="#" class="mega-menu-item-title"><%= category.name%></a>
+                                                            <ul class="mega-menu-sub">
+                                                                <% if (subCategories) { %>
+                                                                 <% subCategories.forEach(subCategory => { %>
+                                                                    <% if (subCategory.categoryId.toString() == category._id.toString()) { %>
+                                                                        <li><a href="/user/showProductsBySubCategory/<%= subCategory._id.toString() %>"><%= subCategory.name %></a></li>
+                                                                    <% } %>
+                                                                 <% }) %>
+                                                                <% } %>
+                                                            </ul>
+                                                        </li>
+                                                     <% }) %>
+                                                    <% } %>
+                                                </ul>
+                                                <div class="menu-banner">
+                                                    <a href="#" class="menu-banner-link">
+                                                        <img class="menu-banner-img"
+                                                            src="/user/images/banner/menu-banner.jpg" alt="">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <a href="about-us.html">About Us</a>
+                                        </li>
+                                        <li>
+                                            <a href="contact-us.html">Contact Us</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- End Header Main Menu Start -->
+
+                            <!-- Start Header Action Link -->
+                            <ul class="header-action-link action-color--black action-hover-color--golden">
+                                <li class="go-to-wishlist">
+                                    <a href="#offcanvas-wishlish">
+                                        <i class="icon-heart"></i>
+                                        <span class="item-count wishlist-count">0</span>
+                                    </a>
+                                </li>
+                                <li class="go-to-cart">
+                                    <a href="#offcanvas-add-cart">
+                                        <i class="icon-bag"></i>
+                                        <span class="item-count cart-count"><%= cartLength %></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#search">
+                                        <i class="icon-magnifier"></i>
+                                    </a>
+                                </li>
+                                <li class="show-nav">
+                                    <a href="#offcanvas-about" class="offacnvas offside-about offcanvas-toggle">
+                                        <i class="icon-menu"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Header Action Link -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Start Header Area -->
+
+    <!-- Start Mobile Header -->
+    
+
+    <!-- ...:::: Start Breadcrumb Section:::... -->
+    
+
+    

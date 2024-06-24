@@ -1,0 +1,175 @@
+<%- include('./partials/header') %>
+    <div class="image-container">
+        <div class="image-list">
+            <img src="/images/products/<%= productDetails.mainImage %>" class="product-image preview-image main-image"
+            data-imgURL="<%= productDetails.mainImage %>" alt="">
+            <% productDetails.detailedImages.forEach(element=> { %>
+                <img src="/images/products/<%= element %>" class="product-image" alt="" data-imgURL="<%= element %>">
+                <% }) %>
+        </div>
+        <div class="selected-image-container" style="position: relative;">
+            <img src="/images/products/<%= productDetails.mainImage%>" class="selected-image" alt="">
+            <div class="add-img-container">
+            </div>
+            <div class="img-buttons df jcsb">
+                <button value="<%= productDetails.mainImage %>" class="change-main-image">Change</button>
+            </div>
+        </div>
+    </div>
+
+    <form class="form dfc" enctype="multipart/form-data">
+        <div class="form-head df jcsb">
+            <h2 class="">Edit Product</h2>
+        </div>
+        <div class="empty-form-error">Fill every fields to continue</div>
+        <div class="input-fields df">
+            <div class="left-side-inputs dfc">
+                <div class="fields dfc">
+                    <label for="name">Product Name<span class="red">*</span> <span class="name-empty error red">Name is
+                            required</span></label>
+                    <input class="input" id="name" name="name" type="text"
+                        value="<%= productDetails.name %>" />
+                </div>
+                <div class="fields dfc">
+                    <label for="description">Description<span class="red">*</span><span
+                            class="desc-empty error red">Description is required</span></label>
+                    <textarea class="description" name="description" id="description"
+                        rows="3"><%= productDetails.description %></textarea>
+                </div>
+                <div class="fields dfc">
+                    <label for="category">Category<span class="red">*</span></label>
+                    <select name="category" id="category">
+                        <% categories.forEach(element=> { %>
+                            <% if (productDetails.category.toString()==element._id.toString()) { %>
+                                <option value="<%= element._id%>" selected>
+                                    <%= element.name %>
+                                </option>
+                                <% } else { %>
+                                    <option value="<%= element._id%>">
+                                        <%= element.name %>
+                                    </option>
+                                    <% } %>
+                                        <% }) %>
+                    </select>
+                </div>
+                <div class="fields dfc">
+                    <label for="sub-category">Sub category<span class="red">*</span></label>
+                    <select name="subCategory" id="sub-category">
+                        <% subCategories.forEach(element=> { %>
+                            <% if (element._id.toString()==productDetails.subCategory.toString()) { %>
+                                <option value="<%= element._id %>" selected>
+                                    <%= element.name %>
+                                </option>
+                                <% } else { %>
+                                    <option value="<%= element._id %>">
+                                        <%= element.name %>
+                                    </option>
+
+                                    <% } %>
+
+                                        <% }) %>
+                    </select>
+                </div>
+                <div class="fields dfc">
+                    <label for="collection">Collection<span class="red">*</span></label>
+                    <select name="collection" id="collection">
+                        <% collections.forEach(element=> { %>
+                            <% if (element._id.toString()==productDetails.collection.toString()) { %>
+                                <option value="<%= element._id %>" selected>
+                                    <%= element.name %>
+                                </option>
+                                <% } else { %>
+                                    <option value="<%= element._id %>">
+                                        <%= element.name %>
+                                    </option>
+
+                                    <% } %>
+                                        <% }) %>
+                    </select>
+                </div>
+                <div class="return df aic">
+                    <label for="return">Return Policy</label>
+                    <input type="checkbox" name="" id="return">
+                </div>
+            </div>
+
+
+            <div>
+                <input class="input" type="file" id="mainImage" name="productImage" />
+                <input class="input" type="file" id="detailedImage" multiple name="detailedImages">
+            </div>
+            <div class="right-side-inputs dfc">
+                <div class="fields dfc">
+
+                    <label for="stock">Units In Stock<span class="red">*</span><span class="stock-empty error red">This
+                            field
+                            is required</span></label>
+                    <input class="input" id="stock" name="stock" type="number" value="<%= productDetails.stock %>"
+                        class="" />
+                </div>
+                <div class="price dfc">
+                    <div class="df" style="gap: 10px;">
+                        <div class="fields dfc">
+                            <label for="price">Price<span class="red">*</span></label>
+                            <input id="price" name="productPrice" type="number" class=""
+                                value="<%= productDetails.price %>" />
+                        </div>
+                        <div class="fields dfc">
+                            <label for="offer-price">Offer price</label>
+                            <input id="offer-price" name="offerPrice" type="number" class=""
+                                value="<%= productDetails.offerPrice ? productDetails.offerPrice : '' %>" />
+                        </div>
+                    </div>
+                    <div class="df gap">
+                        <span class="price-empty error red">Price is required</span>
+                        <span class='offer-price-empty error red'>Enter a number</span>
+                    </div>
+                </div>
+                <div class="color-size dfc">
+                    <div class="df" style="gap: 10px;">
+                        <div class="color gap dfc">
+                            <label for="color">Color<span class="red">*</span></label>
+                            <select name="color" id="color">
+                                <option value="<%= productDetails.color %>">
+                                    <%=productDetails.color.toUpperCase()%>
+                                </option>
+                                <option value="red">RED</option>
+                                <option value="yellow">YELLOW</option>
+                                <option value="green">GREEN</option>
+                                <option value="blue">BLUE</option>
+                                <option value="white">WHITE</option>
+                                <option value="black">BLACK</option>
+                                <option value="olive">OLIVE</option>
+                                <option value="skyblue">SKY BLUE</option>
+                                <option value="other">OTHERS</option>
+                            </select>
+                        </div>
+                        <div class="size gap dfc">
+                            <label for="size">Size</label>
+                            <select name="size" id="size">
+                                <option value="<%= productDetails.size %>">
+                                    <%= productDetails.size %>
+                                </option>
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="fields dfc gap">
+                    <label for="del-within">Delivery with in</label>
+                    <input type="number" name="delWithin" id="del-within" value="<%= productDetails.deliveryWithin %>"
+                        placeholder="delivery with in (days)">
+                </div>
+
+            </div>
+        </div>
+        <div class="dfc jcc-and-aic">
+            <button type="submit" class="save-changes-button">Save changes</button>
+        </div>
+    </form>
+    <%- include('partials/footer') %>

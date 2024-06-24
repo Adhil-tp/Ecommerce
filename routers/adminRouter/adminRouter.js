@@ -6,11 +6,31 @@ const upload = require('../../middlewares/multer')
 const express = require('express')
 const router = express.Router()
 
-router.get('/addProduct', productController.getAddProduct)
-      .get('/api/categorySelect/:categoryId', productController.categorySelect)
+//routers for rendering pages
+router.get('/user', (req, res) => {
+      res.render('user/index-2')
+})
+router.get('/showProducts', productController.showProducts)
+      .get('/addProduct', productController.getAddProduct)
+      .get('/showCategories', categoryController.showCategories)
+      .get('/editProduct', productController.editSpecificProductPage)
+      .get('/disableProduct' , productController.disableProduct)
+      .get('/enableProduct' , productController.enableProduct)
+      .get('/showDisabled' , productController.showDisabledPage)
+
+
+
+router.get('/api/categorySelect/:categoryId', productController.categorySelect)
       .get('/api/subCategorySelect/:subCategoryId', productController.subCategorySelect)
       .get('/api/getProductByCategory/:categoryId', productController.getProductsByCategory)
-      .get('/showProducts', productController.showProducts)
+      .get('/api/getProductsByPagination/:paginationValue/:chosenCategoryId', productController.getProductsByPagination)
+      .get('/api/searchingProducts/:searchValue', productController.searchProduct)
+
+router.post('/api/addProduct', upload.fields([{ name: 'productImage', maxCount: 1 }, { name: 'detailedImages', maxCount: 10 }]),
+      productController.addProduct)
+
+router.put('/api/updateProduct', upload.fields([{ name: 'productImage', maxCount: 1 }, { name: 'newDetailedImages', maxCount: 10 }]),
+      productController.updateProduct)
 
 
 
@@ -22,17 +42,19 @@ router.post('/api/createCategory/:categoryName', addCategoryController.createCat
       .post('/api/deleteUnsavedCategory', addCategoryController.deleteUnsavedCategory)
 // .post('/checking' , addCategoryController.checking)
 
-router.get('/api/changeSubCategory/:chosenCollectionParent', addCategoryController.changeSubCategory)
+router.get('/api/changeSubCategory/:chosenSubCategoryId', addCategoryController.changeSubCategory)
 
 
 
-router.get('/showCategories', categoryController.showCategories)
 
 
 router.delete('/api/deleteCollection/:collectionId', categoryController.deleteCollection)
       .delete('/api/deleteSubCat/:subCategoryId', categoryController.deleteSubCategory)
 
 
-router.post('/api/addProduct', upload.fields([{ name: 'productImage', maxCount: 1 }, { name: 'detailedImages', maxCount: 10 }]),
-      productController.addProduct)
+router.put('/api/editCollectionName/:collectionId/:newCollectionName', categoryController.editCollectionName)
+      .put('/api/editSubCategoryName/:subCategoryId/:newSubCatName', categoryController.editSubCategoryName)
+
+
+
 module.exports = router

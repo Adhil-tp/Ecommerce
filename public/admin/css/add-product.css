@@ -1,7 +1,7 @@
 
 .add-category-form{
-    color: #1A4D2E;
-    border: 2px solid #1A4D2E;
+    color: #07161b;
+    border: 2px solid #07161b;
     padding: 7px;
     border-radius: 4px;
 }
@@ -24,18 +24,17 @@
 }
 
 
-
 .form {
     gap: 30px;
     padding: 30px;
 }.form{
-    color: #1A4D2E;
+    color: #07161b;
 }
 
 .add-product-button {
     width: 80% !important;
     color: #F5EFE6;
-    background-color: #1A4D2E !important;
+    background-color: #3d727f !important;
 }
 
 .input,
@@ -46,7 +45,7 @@
     border: none;
     padding: 5px;
     height: 35px;
-    width: 300px;
+    /* width: clamp(200px , 300px , 300px); */
     background-color: #F5EFE6;
     border-radius: 4px;
     font-size: 16px;
@@ -133,7 +132,7 @@
 }
 .pop {
     position: absolute;
-    background-color: #4F6F52;
+    background-color: #3d727f;
     inset: 0;
     display: none;
 }
@@ -141,7 +140,7 @@
 .add-popup {
     /* box-shadow: 0 0 50px 0.5px; */
     gap: 40px;
-    background-color: #1A4D2E;
+    background-color: #07161b;
     border-radius: 10px;
     width: 25rem;
     padding: 50px;
@@ -162,18 +161,21 @@
     width: 30px;
     height: 30px;
     border-radius: 20px;
-    background-color: rgb(253, 45, 45);
+    background-color: red;
 }
 
 .add-popup button {
-    width: 50%;
+    width: 70px;
     height: 35px;
-    background-color: #4F6F52;
+    background-color: #3d727f;
     color: #F5EFE6;
     border: none;
     border-radius: 4px;
 }
 
+.submit-category{
+    width: 100px !important;
+}
 .category-error {
     display: none;
     color: red;
@@ -201,11 +203,7 @@ input:disabled {
     /* gap: 10px; */
 }
 
-/* .add-category {
-    position: absolute;
-    bottom: 50px;
 
-} */
 .cat,
 .sub-cat,
 .coll {
@@ -266,9 +264,10 @@ li {
     width: 500px;
     background-color: #F5EFE6;
     border-radius: 5px;
-    color: #1A4D2E;
+    color: #07161b;
     position: absolute;
     top: 100px;
+    text-align: center;
     right: 50px;
     gap: 50px;
     display: none;
@@ -281,7 +280,7 @@ li {
 .cat-form-close-buttons button {
     width: 130px;
     border: none;
-    background-color: #1A4D2E;
+    background-color: #07161b;
     color: #F5EFE6;
     border-radius: 2px;
     height: 30px;
@@ -305,6 +304,9 @@ li {
 .form label {
     display: flex;
 }
+.form-head{
+    align-items: center;
+}
 
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -313,3 +315,61 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
+
+
+
+
+@media (max-width : 900px) {
+    .input-fields{
+        display: flex;
+        flex-direction: column;
+        height: 350px;
+        overflow-y: auto;
+    }
+    .form{
+        width: clamp(400px , auto , 70%);
+        height: 100%;
+    }
+    .input-fields {
+        height: 75%;
+    }
+}
+
+@media (max-width: 552px) {
+    .form{
+        /* padding: 20px; */
+        width: 100% !important;
+        align-items: center;
+        padding: 10px;
+    }
+    .form-head{
+        gap: 10px;
+        align-items: center;
+    }
+    .add-product-button{
+        width: 200px !important;
+    }
+    .add-popup {
+        width:90%;
+        height: 70%;
+
+        /* padding: 10px !important; */
+    }
+    /* .close-add-category {
+        right: 50px;
+    } */
+    .form{
+        height: 100%;
+    }
+    .input-fields {
+        height: 75%;
+    }
+    .cat-form-close {
+        padding: 20px !important;
+        width: 70%;
+    }
+    .cat-form-close button {
+        width: 50px;
+    }
+
+}

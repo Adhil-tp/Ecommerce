@@ -1,0 +1,80 @@
+<%-include('partials/header')%>
+    <div class="search-product dfc">
+
+        <!-- search bar -->
+        <div class="search-bar df jcsb">
+            <div class="search-product-container"    >
+                <input type="search" name="" id="search-product" placeholder="Search a product">
+                <ul class="search-result">
+                    <!-- <li>
+                        <img src="/images/products/1717577257264-shirt1main.webp" style="" alt="">
+                        <p class="product-name">product name</p>
+                        <p class="product-price"><small>1,444</small></p>
+                    </li> -->
+                </ul>
+            </div>
+            <div class="search-category-container">
+                <select name="category" id="search-category">
+                    <option value="all">All</option>
+                    <% if (categories) { %>
+                        <% categories.forEach(element=> { %>
+                            <option value="<%= element._id %>">
+                                <%= element.name %>
+                            </option>
+                            <% }) %>
+                                <% } %>
+                </select>
+            </div>
+        </div>
+
+        <!-- products  -->
+
+        <div class="products">
+            <div class="product-container">
+                <% if (products) { %>
+                    <% products.forEach(element=> { %>
+                        <div class="product dfc" data-Id="<%= element._id %>">
+                            <div>
+                                <img src="/images/products/<%= element.mainImage %>"
+                                    style="object-fit: cover; width: 100%; height: 100%; border-radius: 5px;" alt="">
+                            </div>
+                            <div>
+                                <h4>
+                                    <%= element.name %>
+                                </h4>
+                                <div class="df gap">
+                                    <% if (element.offerPrice) { %>
+                                        <h3 style="color: green;">
+                                            <%= element.offerPrice%>
+                                        </h3>
+                                        <h3><del class="red">
+                                                <%= element.price %>
+                                            </del></h3>
+                                        <% }else { %>
+                                            <h3>
+                                                <%= element.price %>
+                                            </h3>
+                                            <% } %>
+                                </div>
+                            </div>
+                            <div class="product-buttons df">
+                                <a value="<%= element._id %>" href="/admin/editProduct?productId=<%= element._id %>" class="edit-product">Edit</a>
+                                <a value="<%= element._id %>" href="/admin/enableProduct?productId=<%= element._id %>" class="enable-product">Enable</a>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } %>
+            </div>
+            <div class="pagination">
+                <% for( let i=1; i <=productLength; i++ ) { %>
+                    <button class="pagination-button" value="<%= i %>">
+                        <%= i %>
+                    </button>
+                    <% } %>
+            </div>
+        </div>
+
+    </div>
+
+
+    <%-include('partials/footer')%>

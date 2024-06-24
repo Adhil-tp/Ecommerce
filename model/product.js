@@ -12,9 +12,11 @@ const productSchema = mongoose.Schema({
     offerPrice: { type: Number },
     mainImage: { type: String, required: true },
     detailedImages: { type: [String], required: true },
-    color : {type : String },
-    size : {type : String },
-    deliveryWithin : {type : Number}
+    color: { type: String },
+    size: { type: String },
+    deliveryWithin: { type: Number },
+    disabled: { type: Boolean, default: false },
+    sold : {type : Number , default : 0}
 })
 
 module.exports = mongoose.model('products', productSchema)

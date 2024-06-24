@@ -130,9 +130,11 @@ module.exports = addCategoryController = {
 
 
     changeSubCategory: async (req, res) => {
-        // console.log(req.params)
-        const { chosenCollectionParent } = req.params
-        const collectionList = await collection.find({ subCategoryId: mongoose.Types.ObjectId.createFromHexString(chosenCollectionParent) })
+        console.log(req.params)
+        const { chosenSubCategoryId } = req.params
+        req.session.subCategoryId = chosenSubCategoryId
+        console.log('req.session.subCategoryId' , req.session.subCategoryId)
+        const collectionList = await collection.find({ subCategoryId: mongoose.Types.ObjectId.createFromHexString(chosenSubCategoryId) })
         // console.log('this is the founded collection', collectionList)
         if (collectionList) {
             return res.status(200).json({ foundData: true, collectionList })

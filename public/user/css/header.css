@@ -1,0 +1,16 @@
+.cartsection{
+    padding-top: 60px;
+}
+@media (min-width:768px) {
+    .cart-section {
+        padding-top: 80px
+    }
+}
+@media (min-width:992px) {
+    .cart-section {
+        padding-top: 100px
+    }
+}
+.header {
+    display: flex !important;
+}

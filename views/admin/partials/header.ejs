@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/admin/css/<%- title %>.css">
   <link rel="stylesheet" href="/admin/css/common.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/admin/js/header.js"></script>
 </head>
 
 <body>
@@ -16,17 +17,29 @@
     <div>
       <h1>Graza</h1>
     </div>
-    <div>
-      <button href="">Exit</button>
+    <div class="df gap">
+      <button class="logout" href="">Logout</button>
+      <button class="show-sidebar">c</button>
     </div>
   </header>
   <div class="container df">
-    <div class="sidebar dfc">
-
-      <a class="f-22" href="/admin/showProducts">View Products
-      </a>
-      <a class="f-22" href="/admin/addProduct">Products</a>
-
-      <a class="f-22" href="/admin/showCategories">Categories</a>
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <img src="/admin/img/icons/productListIcon.png" alt="">
+        <a class="f-22" href="/admin/showProducts">View Products</a>
+      </div>
+      <div class="sidebar-content">
+        <img src="/admin/img/icons/addProductIcon.png" alt="">
+        <a class="f-22" href="/admin/addProduct">Add Products</a>
+      </div>
+      <div class="sidebar-content">
+        <img src="/admin/img/icons/categoriesIcon.png" alt="">
+        <a class="f-22" href="/admin/showCategories">Categories</a>
+      </div>
+      <div class="sidebar-content">
+        <img src="/admin/img/icons/deletedImages.png" alt="">
+        <a class="f-22" href="/admin/showDisabled">Show disabled</a>
+      </div>
+      
     </div>
     <div class="content-side df jcc-and-aic">
