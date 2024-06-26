@@ -14,3 +14,10 @@
 .header {
     display: flex !important;
 }
+footer{
+    margin: 0 !important;
+}
+
+.show-nav{
+    display: none;
+}

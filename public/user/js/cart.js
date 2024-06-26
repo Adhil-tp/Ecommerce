@@ -31,16 +31,38 @@ const quantityModalStatus = document.querySelector('.modal-status')
 
 async function quantityControllerFunction(event) {
     const productId = event.target.dataset.productid
-    const productQuantity = event.target.value
+    const productQuantity = parseInt(event.target.value)
+    // console.log(typeof parseInt(document.querySelector(`.product-quantity-${productId}`).textContent.trim()))
+    const currentQuantity = parseInt(document.querySelector(`.product-quantity-${productId}`).textContent.trim())
+    console.log(currentQuantity , productQuantity)
+    // if(currentQuantity == 0){
+    //     if(currentQuantity > productQuantity){
+    //         event.target.value = 0
+    //         return showPopup(quantityModal , false , `You can't chose negative value`)
+    //     }
+    // }else if(currentQuantity > 0 ){
+    //     event.target.value = 0
+    //     return showPopup(quantityModal , false , 'something')
+    // }
+    // else if(currentQuantity - productQuantity > currentQuantity){
+    //     event.target.value = 0
+    //     return showPopup(quantityModal , false , `Choose proper quantity to remove`)
+    // }
+    event.target.disabled = true
     const response = await axios.post(`/user/addToCart/${productId}/${productQuantity}`)
     const data = response.data
+    setTimeout(function (){
+        event.target.disabled = false
+    }, 1000)
     if (data.success) {
         document.querySelector(`.product-quantity-${productId}`).textContent = data.cartProductsTotalCount
         event.target.value = 0
         document.querySelector(`.product-total-${productId}`).innerHTML = data.productTotal
-        document.querySelector('.cart_amount').textContent = data.totalCartPrice
+        const cartAmount = document.querySelectorAll('.cart_amount')
+        cartAmount.forEach(amount => amount.textContent = data.totalCartPrice)
         showPopup(quantityModal, data.success, data.message)
     } else {
+        event.target.value = 0
         showPopup(quantityModal, data.success, data.message)
     }
 }
@@ -63,6 +85,13 @@ removeFormCartButtons.forEach(removeButton => {
     removeButton.addEventListener('click', async (event) => {
         const productId = event.target.dataset.productid
         console.log('clicked delete button', productId)
-        // const response = await axios.delete(`/use/deleteCartProduct/`)
+        const response = await axios.delete(`/user/deleteCartProduct/${productId}`)
+        const data = response.data
+        if (data.success) {
+            const removingRow = event.target.parentNode.parentNode.parentNode
+            console.log(removingRow)
+            removingRow.parentNode.removeChild(removingRow)
+        }
+        // console.log(event)
     })
 })

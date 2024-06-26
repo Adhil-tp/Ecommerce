@@ -8,3 +8,33 @@
 .product{
     width: 100%;
 }
+.header-logo h2 {
+    margin: 0;
+    padding: 25px 20px;
+}
+.banner-section {
+    padding-top: 50px;
+}
+@media (max-width : 768px) {
+    .products-list{
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    .category-header {
+        display: none;
+    }
+    .category-header li a {
+        padding: 20px !important;
+    }
+    .new-arrival {
+        width: max-content;
+    }
+    .product-default-slider-section{
+        padding: 15px;
+    }
+}
+
+@media (max-width : 575px) {
+    .products-list{
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}

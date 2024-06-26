@@ -19,7 +19,6 @@ router.get('/showProducts', productController.showProducts)
       .get('/showDisabled' , productController.showDisabledPage)
 
 
-
 router.get('/api/categorySelect/:categoryId', productController.categorySelect)
       .get('/api/subCategorySelect/:subCategoryId', productController.subCategorySelect)
       .get('/api/getProductByCategory/:categoryId', productController.getProductsByCategory)

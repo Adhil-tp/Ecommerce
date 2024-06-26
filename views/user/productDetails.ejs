@@ -109,9 +109,11 @@
                                 </div>
                                 <!-- Start  Product Details Meta Area-->
                                 <div class="product-details-meta mb-20">
-                                    <a href="wishlist.html" class="icon-space-right"><i class="icon-heart"></i>Add to
-                                        wishlist</a>
-                                    <a href="compare.html" class="icon-space-right"><i
+                                    <a  class="wishlist-product-id icon-space-right" data-productId="<%= product._id %>">
+                                        <i class="wishlist wishlist-icon <%= isInWishlist ? 'fa fa-heart' : 'icon-heart' %>"></i>
+                                        <span class="wishlist wishlist-action"><%= isInWishlist ? 'Remove from wishlist' : 'Add to wishlist' %></span>
+                                    </a>
+                                        <a href="compare.html" class="icon-space-right"><i
                                             class="icon-refresh"></i>Compare</a>
                                 </div>
                                 <!-- End  Product Details Meta Area-->

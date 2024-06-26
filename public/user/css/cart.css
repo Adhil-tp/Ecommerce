@@ -63,3 +63,15 @@ body {
 .quantity-modal p {
     margin: 0;
 }
+
+.empty-cart{
+    width: 100%;
+    height: calc(100% - 5rem);
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+}
+.empty-cart h1 {
+    font-weight: bolder;
+    font-size: 60px;
+}

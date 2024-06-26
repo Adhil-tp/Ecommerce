@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/user/css/style.min.css">
     <link rel="stylesheet" href="/user/css/<%= title %>.css">
     <link rel="stylesheet" href="/user/css/header.css">
+    
 </head>
 
 <body>
@@ -55,7 +56,7 @@
                                                                 <% if (subCategories) { %>
                                                                  <% subCategories.forEach(subCategory => { %>
                                                                     <% if (subCategory.categoryId.toString() == category._id.toString()) { %>
-                                                                        <li><a href="/user/showProductsBySubCategory/<%= subCategory._id.toString() %>"><%= subCategory.name %></a></li>
+                                                                        <li><a href="/user/showProducts?subCatId=<%= subCategory._id.toString() %>"><%= subCategory.name %></a></li>
                                                                     <% } %>
                                                                  <% }) %>
                                                                 <% } %>
@@ -87,13 +88,13 @@
                             <!-- Start Header Action Link -->
                             <ul class="header-action-link action-color--black action-hover-color--golden">
                                 <li class="go-to-wishlist">
-                                    <a href="#offcanvas-wishlish">
+                                    <a href="/user/wishlist">
                                         <i class="icon-heart"></i>
-                                        <span class="item-count wishlist-count">0</span>
+                                        <span class="item-count wishlist-count"><%= wishListLength %></span>
                                     </a>
                                 </li>
                                 <li class="go-to-cart">
-                                    <a href="#offcanvas-add-cart">
+                                    <a href="/user/cart">
                                         <i class="icon-bag"></i>
                                         <span class="item-count cart-count"><%= cartLength %></span>
                                     </a>

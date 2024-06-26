@@ -17463,13 +17463,16 @@ input {
     margin-bottom: 0
 }
 
-.sidebar-menu li a {
+.sidebar-menu li button {
     font-weight: 700;
-    color: #24262b
+    color: #24262b;
+    transition-duration: 0.5s;
 }
 
-.sidebar-menu li a:hover {
+.sidebar-menu li button:hover {
+    transition-duration: 0.5s;
     color: #b19361
+
 }
 
 .accordion-title {
@@ -19385,6 +19388,8 @@ table {
     position: relative
 }
 
+
+
 .main-menu nav>ul>li {
     position: relative;
     display: inline-block
@@ -19405,7 +19410,7 @@ table {
 .main-menu nav>ul>li>a {
     display: block;
     line-height: 24px;
-    padding: 25px 30px;
+    padding: 25px 20px;
     font-size: 14px;
     line-height: 30px;
     text-transform: uppercase;

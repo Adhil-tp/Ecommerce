@@ -3,6 +3,10 @@ let productQuantity = document.querySelector('.product-quantity')
 const plus = document.querySelector('.plus')
 const minus = document.querySelector('.minus')
 const addToCartButton = document.querySelector('.add-to-cart')
+const addToWishlistButtons = document.querySelectorAll('.wishlist')
+const wishlistCount = document.querySelector('.wishlist-count')
+const wishlistIcon = document.querySelector('.wishlist-icon')
+const wishlistAction = document.querySelector('.wishlist-action')
 const productStock = document.querySelector('.product-stock')
 const cartCount = document.querySelector('.cart-count')
 
@@ -32,7 +36,6 @@ const quantityModalStatus = document.querySelector('.modal-status')
 
 
 let count = productQuantity.value
-console.log('value', count)
 minus.addEventListener('click', decrementQuantity)
 plus.addEventListener('click', incrementQuantity)
 
@@ -47,11 +50,37 @@ function decrementQuantity() {
     --count;
     productQuantity.value = count;
 }
+async function wishListOperation(event) {
+    console.log(event.target.dataset)
 
+    const productId = document.querySelector('.wishlist-product-id').dataset.productid
+    console.log(productId)
+
+    try {
+        const response = await axios.post(`/user/addToWishlist?productId=${productId}`)
+        const data = response.data
+        if (data.success) {
+            console.log(wishlistAction)
+            if (data.isInWishlist) {
+                wishlistIcon.classList.remove('icon-heart')
+                wishlistIcon.classList.add('fa', 'fa-heart')
+                wishlistAction.textContent = 'Remove from wishlist'
+            } else {
+                wishlistIcon.classList.remove('fa', 'fa-heart')
+                wishlistIcon.classList.add('icon-heart')
+                wishlistAction.textContent = 'Add to wishlist'
+            }
+            wishlistCount.textContent = data.wishListLength
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
 addToCartButton.addEventListener('click', async () => {
     minus.removeEventListener('click', decrementQuantity)
     plus.removeEventListener('click', incrementQuantity)
     let productQuantity = document.querySelector('.product-quantity').value
+    console.log(productQuantity)
     if (productQuantity < 1) {
         showPopup(quantityModal, false, 'Quantity required.')
         minus.addEventListener('click', decrementQuantity)
@@ -79,3 +108,10 @@ addToCartButton.addEventListener('click', async () => {
     plus.addEventListener('click', incrementQuantity)
 })
 
+
+addToWishlistButtons.forEach(button => {
+    button.addEventListener('click', wishListOperation)
+})
+
+
+const log = console.log.bind(console)
