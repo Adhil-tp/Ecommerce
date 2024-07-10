@@ -8,6 +8,9 @@
 .product{
     width: 100%;
 }
+a{
+    cursor: pointer;
+}
 .header-logo h2 {
     margin: 0;
     padding: 25px 20px;

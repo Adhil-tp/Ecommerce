@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { defaultMaxListeners } = require('nodemailer/lib/xoauth2')
 const validator = require('validator')
 const { default: isEmail } = require('validator/lib/isEmail')
 
@@ -6,7 +7,7 @@ const userSchema = mongoose.Schema({
     name: { type: String, required: true, trim: true },
     email: {
         type: String,
-        required: true,
+        // required: true,
         unique: true,
         trim: true,
         validate: {
@@ -15,5 +16,12 @@ const userSchema = mongoose.Schema({
             },
             message: props => `${props.value} is not valid email`
         }
-    }
+    },
+    lastPurchaseDat: { type: Date  ,default : null},
+    purchasedProducts: [{
+        productId: { type: mongoose.Types.ObjectId },
+        quantity: { type: Number, default: 0 }
+    }]
 })
+
+module.exports = mongoose.model('users', userSchema)

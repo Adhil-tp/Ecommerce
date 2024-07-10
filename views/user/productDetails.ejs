@@ -104,7 +104,7 @@
                                             <% }else { %>
                                                 <a class="add-to-cart" data-productId="<%= product._id %>">+ Add To Cart</a>
                                         <% } %>
-                                        <a class="buy-now"> Buy now</a>
+                                        <a class="buy-now" data-productid="<%= product._id %>" data-productprice="<%= product.offerPrice ? product.offerPrice : product.price  %>"> Buy now</a>
                                     </div>
                                 </div>
                                 <!-- Start  Product Details Meta Area-->

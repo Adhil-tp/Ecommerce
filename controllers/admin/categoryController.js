@@ -4,7 +4,6 @@ const collection = require('../../model/collection')
 const product = require('../../model/product')
 const mongoose = require('mongoose')
 const fs = require('fs')
-const { patch } = require('../../routers/adminRouter/adminRouter')
 
 // const deleteImages = (imgPath) => {
 //     const imagePath = `/images/products/${imgPath}`
@@ -100,5 +99,8 @@ module.exports = categoryController = {
         } catch (err) {
             res.json({ error: true, message: 'Error updating sub category name' })
         }
+    },
+    showCoupons : async (req ,res)=>{
+        res.render('admin/coupons' , {title : 'coupons'})
     }
 }

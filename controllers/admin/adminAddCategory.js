@@ -89,7 +89,7 @@ module.exports = addCategoryController = {
         try{
             req.session?.subCategories.push(newSubCategory._id.toString())
         }catch(err){
-            console.log('cannot push ')
+            console.log('cannot push')
         }
         // console.log('new created sub categories', req.session.subCategories)
 

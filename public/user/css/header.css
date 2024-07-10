@@ -1,23 +1,46 @@
-.cartsection{
-    padding-top: 60px;
+@font-face {
+    font-family: 'Rusilla serif Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Rusilla serif Regular'), url('RusillaSerif-2OZpl.woff') format('woff');
 }
+
+
+@font-face {
+    font-family: 'Rusilla serif Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Rusilla serif Light'), url('RusillaSerifLight-vmx97.woff') format('woff');
+}
+
+.graza {
+    font-family: 'Rusilla serif Regular' !important;
+}
+
+.cartsection {
+    padding: 60px 0;
+}
+
 @media (min-width:768px) {
     .cart-section {
-        padding-top: 80px
+        padding: 80px 0
     }
 }
+
 @media (min-width:992px) {
     .cart-section {
-        padding-top: 100px
+        padding: 100px 0
     }
 }
+
 .header {
     display: flex !important;
 }
-footer{
+
+footer {
     margin: 0 !important;
 }
 
-.show-nav{
+.show-nav {
     display: none;
 }

@@ -1,7 +1,7 @@
 
 const quantityController = document.querySelectorAll('.quantity-controller')
 const removeFormCartButtons = document.querySelectorAll('.remove-from-cart')
-
+const cartAmount = document.querySelector('.cart_amount')
 
 
 function showPopup(element, success, message) {
@@ -32,22 +32,7 @@ const quantityModalStatus = document.querySelector('.modal-status')
 async function quantityControllerFunction(event) {
     const productId = event.target.dataset.productid
     const productQuantity = parseInt(event.target.value)
-    // console.log(typeof parseInt(document.querySelector(`.product-quantity-${productId}`).textContent.trim()))
     const currentQuantity = parseInt(document.querySelector(`.product-quantity-${productId}`).textContent.trim())
-    console.log(currentQuantity , productQuantity)
-    // if(currentQuantity == 0){
-    //     if(currentQuantity > productQuantity){
-    //         event.target.value = 0
-    //         return showPopup(quantityModal , false , `You can't chose negative value`)
-    //     }
-    // }else if(currentQuantity > 0 ){
-    //     event.target.value = 0
-    //     return showPopup(quantityModal , false , 'something')
-    // }
-    // else if(currentQuantity - productQuantity > currentQuantity){
-    //     event.target.value = 0
-    //     return showPopup(quantityModal , false , `Choose proper quantity to remove`)
-    // }
     event.target.disabled = true
     const response = await axios.post(`/user/addToCart/${productId}/${productQuantity}`)
     const data = response.data
@@ -55,12 +40,21 @@ async function quantityControllerFunction(event) {
         event.target.disabled = false
     }, 1000)
     if (data.success) {
-        document.querySelector(`.product-quantity-${productId}`).textContent = data.cartProductsTotalCount
+        document.querySelector(`.product-quantity-${productId}`).textContent = `${data.cartProductsTotalCount}`
         event.target.value = 0
-        document.querySelector(`.product-total-${productId}`).innerHTML = data.productTotal
+        document.querySelector(`.product-total-${productId}`).innerHTML = `₹${data.productTotal}`
         const cartAmount = document.querySelectorAll('.cart_amount')
-        cartAmount.forEach(amount => amount.textContent = data.totalCartPrice)
+        cartAmount.forEach(amount => amount.textContent = `₹${data.totalCartPrice}`)
         showPopup(quantityModal, data.success, data.message)
+        console.log(data.totalCartPrice)
+        if(data.totalCartPrice < 500 && data.totalCartPrice > 0){
+            document.querySelector('.payable').textContent = data.totalCartPrice + 49
+        }else{
+            document.querySelector('.payable').textContent = `₹${data.totalCartPrice}`
+        }
+        if(data.discountPrice){
+            document.querySelector('.payable')
+        }
     } else {
         event.target.value = 0
         showPopup(quantityModal, data.success, data.message)
@@ -87,8 +81,11 @@ removeFormCartButtons.forEach(removeButton => {
         console.log('clicked delete button', productId)
         const response = await axios.delete(`/user/deleteCartProduct/${productId}`)
         const data = response.data
+        console.log(data)
         if (data.success) {
             const removingRow = event.target.parentNode.parentNode.parentNode
+            cartAmount.innerHTML = `<p class="cart_amount">₹${data.total}</p>`
+            document.querySelector('.payable').textContent = `₹${data.total}`
             console.log(removingRow)
             removingRow.parentNode.removeChild(removingRow)
         }

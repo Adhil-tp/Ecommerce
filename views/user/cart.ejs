@@ -4,41 +4,43 @@
         <p class="modal-status">Success</p>
         <p class="modal-message">Quantity required.</p>
     </div>
-    <% if(userCartProducts.length > 0){ %>
-    <div class="cart-section">
-        <!-- Start Cart Table -->
-        <div class="cart-table-wrapper">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table_desc">
-                            <div class="table_page table-responsive">
-                                <table>
-                                    <!-- Start Cart Table Head -->
-                                    <thead>
-                                        <tr>
-                                            <th class="product_remove">Delete</th>
-                                            <th class="product_thumb">Image</th>
-                                            <th class="product_name">Product</th>
-                                            <th class="product-price">Price</th>
-                                            <th class="product_quantity">Quantity</th>
-                                            <th class="product_total">Total</th>
-                                        </tr>
-                                    </thead> <!-- End Cart Table Head -->
-                                    <tbody>
-                                        <!-- Start Cart Single Item-->
+    <% if(userCartProducts.length> 0){ %>
+        <div class="cart-section">
+            <!-- Start Cart Table -->
+            <div class="cart-table-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table_desc">
+                                <div class="table_page table-responsive">
+                                    <table>
+                                        <!-- Start Cart Table Head -->
+                                        <thead>
+                                            <tr>
+                                                <th class="product_remove">Delete</th>
+                                                <th class="product_thumb">Image</th>
+                                                <th class="product_name">Product</th>
+                                                <th class="product-price">Price</th>
+                                                <th class="product_quantity">Quantity</th>
+                                                <th class="product_total">Total</th>
+                                            </tr>
+                                        </thead> <!-- End Cart Table Head -->
+                                        <tbody>
+                                            <!-- Start Cart Single Item-->
                                             <% userCartProducts.forEach(product=> { %>
                                                 <tr>
                                                     <td class="product_remove">
-                                                        <button class="" >
-                                                            <i class="fa fa-trash-o remove-from-cart" data-productid="<%= product.productDetails._id%>"></i>
+                                                        <button class="">
+                                                            <i class="fa fa-trash-o remove-from-cart"
+                                                                data-productid="<%= product.productDetails._id %>"></i>
                                                         </button>
                                                     </td>
                                                     <td class="product_thumb"><a
-                                                            href="product-details-default.html"><img
+                                                            href="/user/productDetails/<%= product.productDetails._id %>"><img
                                                                 src="/images/products/<%= product.productDetails.mainImage %>"
                                                                 alt=""></a></td>
-                                                    <td class="product_name"><a href="/user/productDetails/<%= product.productDetails._id %>">
+                                                    <td class="product_name"><a
+                                                            href="/user/productDetails/<%= product.productDetails._id %>">
                                                             <%= product.productDetails?.name %>
                                                         </a></td>
                                                     <td class="product-price">₹<%= product.productDetails?.offerPrice ?
@@ -50,7 +52,7 @@
                                                         <label
                                                             class="product-quantity-<%=product.products.productId %>">
                                                             <%= product.productDetails?.cartQuantity %>
-                                                        </label><input class="quantity-controller" 
+                                                        </label><input class="quantity-controller"
                                                             data-productid="<%= product.products.productId %>" value="0"
                                                             type="number">
                                                     </td>
@@ -64,70 +66,106 @@
                                                     </td>
                                                 </tr>
                                                 <% }) %>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- <div class="cart_submit">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- <div class="cart_submit">
                                         <button class="btn btn-md btn-golden" type="submit">update cart</button>
                                     </div> -->
-                                </div>
                             </div>
                         </div>
                     </div>
-                </div> <!-- End Cart Table -->
-                
-                <!-- Start Coupon Start -->
-                <div class="coupon_area">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6">
-                                <div class="coupon_code left">
-                                    <h3>Coupon</h3>
-                                    <div class="coupon_inner">
-                                        <p>Enter your coupon code if you have one.</p>
-                                        <input class="mb-2" placeholder="Coupon code" type="text">
-                                        <button type="submit" class="btn btn-md btn-golden">Apply coupon</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                        <div class="coupon_code right">
-                            <h3>Cart Totals</h3>
-                            <div class="coupon_inner">
-                                <div class="cart_subtotal">
-                                    <p>Subtotal</p>
-                                    <p class="cart_amount">₹ <%= userCartProducts[0]?.total ? userCartProducts[0]?.total : 0%>
-                                    </p>
-                                </div>
-                                <div class="cart_subtotal ">
-                                    <p>Shipping</p>
-                                    <% if (userCartProducts[0]?.total> 500) { %>
-                                        <p class="cart_amount"><span>Flat Rate:</span>FREE SHIPPING</p>
-                                        <% } else { %>
-                                            <p class="cart_amount"><span>Flat Rate:</span>₹ 50</p>
-                                            <% } %>
-                                        </div>
-                                        <a href="#">Calculate shipping</a>
-                                        
-                                        <div class="cart_subtotal">
-                                            <p>Total</p>
-                                            <p class="cart_amount">₹ <%= userCartProducts[0]?.total ? userCartProducts[0]?.total : 0%>
-                                            </p>
-                                        </div>
-                                        <div class="checkout_btn">
-                                            <a href="/user/checkout" class="btn btn-md btn-golden">Proceed to Checkout</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- End Coupon Start -->
-            </div> <!-- ...:::: End Cart Section:::... -->
-            <% } else {%>
-                <div class="empty-cart">
-                    <h1>cart empty</h1>
                 </div>
+            </div> <!-- End Cart Table -->
+
+            <!-- Start Coupon Start -->
+            <div class="coupon_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <!-- <div class="coupon_code left">
+                                <h3>Coupon</h3>
+                                <div class="coupon_inner">
+                                    <% if(userCoupons.length > 0){ %>
+                                        <% userCoupons.forEach(coupon => { %>
+                                        <div class="available-coupons">
+                                            <div class="coupon d-flex justify-content-around">
+                                                <div class="coupon-child">
+                                                    <h2><%= coupon.description %></h2>
+                                                    <p>Promo code : <%= coupon.code %></p>
+                                                </div>
+                                                <div class="coupon-child">
+                                                    <h2><span class="discount-percentage"><%= coupon.discount %></span>%<sup>OFF</sup></h2>
+                                                    <a class="promo-code"><%= coupon.code %></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                    <% }else { %>
+                                        <div class="available-coupons">
+                                            <div class="coupon d-flex justify-content-around">
+                                                <div class="coupon-child">
+                                                    <h2>No coupons found</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                <div class="coupon_inner">
+                                    <p>Enter your coupon code if you have one.</p>
+                                    <input class="mb-2" placeholder="Coupon code" type="text">
+                                    <button type="submit" class="btn btn-md btn-golden">Apply coupon</button>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="coupon_code right">
+                                <h3>Cart Totals</h3>
+                                <div class="coupon_inner">
+                                    <div class="cart_subtotal">
+                                        <p>Subtotal</p>
+                                        <p class="cart_amount">₹ <%= userCartProducts[0]?.total ?
+                                                userCartProducts[0]?.total : 0%>
+                                        </p>
+                                    </div>
+                                    <div class="cart_subtotal ">
+                                        <p>Shipping</p>
+                                        <% if (userCartProducts[0]?.total> 500) { %>
+                                            <p class="shipping-amount">FREE SHIPPING</p>
+                                            <% } else { %>
+                                                <p class="cart_amount">₹ 50</p>
+                                                <% } %>
+                                    </div>
+                                    <a href="#">Calculate shipping</a>
+
+                                    <div class="cart_subtotal">
+                                        <p>Total</p>
+                                        <p class="payable">
+                                            ₹<%= userCartProducts[0].total %>
+                                            <!-- <% if (discounctPrice) { %>
+                                                <del>₹<%= total%></del>
+                                                <%= discounctPrice %>
+                                                    <% }else { %>
+                                                        ₹<%= total %>
+                                                            <% } %> -->
+                                        </p>
+                                    </div>
+                                    <div class="checkout_btn">
+                                        <a href="/user/checkout"
+                                            class="btn btn-md btn-golden">Proceed to Checkout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End Coupon Start -->
+        </div> <!-- ...:::: End Cart Section:::... -->
+        <% } else {%>
+            <div class="empty-cart">
+                <!-- <img src="/user/images/user-static/emptycart.png" alt=""> -->
+                <h1>cart empty</h1>
+            </div>
             <% }%>
-            
-            <%- include('./partials/footer') %>
+
+                <%- include('./partials/footer') %>

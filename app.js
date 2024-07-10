@@ -1,5 +1,5 @@
-const adminRouter = require('./routers/adminRouter/adminRouter')
-const userRouter = require('./routers/userRouter/userRouter')
+const adminRouter = require('./routers/adminRouter')
+const userRouter = require('./routers/userRouter')
 
 const session = require('express-session')
 const path = require('path')
@@ -23,6 +23,7 @@ const dotenv = require('dotenv')
 const { default: mongoose } = require('mongoose');
 const exp = require('constants');
 dotenv.config({ path: '.env' })
+
 const MongoURL = process.env.MongoURL
 const port = process.env.PORT || 3001
 
@@ -41,6 +42,7 @@ mongoose.connect(MongoURL)
 
 app.use('/admin', adminRouter)
 app.use('/user', userRouter)
+// app.use('/' , )
 
 
 app.listen(port, () => {

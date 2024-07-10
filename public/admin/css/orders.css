@@ -1,0 +1,111 @@
+:root {
+    --primary-green: #1A4D2E;
+    --secondary-green: #4F6F52;
+    --primary-cream: #E8DFCA;
+    --secondary-cream: #F5EFE6;
+    --light-pink: #F5DAD2;
+
+    --darkGreen: #07161b;
+    --lightGreen: #3d727f;
+    --lightCream: #cec7bf;
+}
+
+.content-side {
+    background-color: white;
+    /* padding: 20px; */
+}
+
+.order-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border: dashed 2px black;
+    border-radius: 10px;
+    background-color: #f7f4ee;
+}
+
+.navbar-collapse {
+    justify-content: space-between;
+}
+
+.pagination {
+    position: absolute;
+    background-color: var(--darkGreen);
+    border-radius: 5px;
+    width: 80%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    gap: 10px;
+    /* Adjust height to a fixed value */
+    top: calc(100% - 70px);
+    left: calc((100% - 80%) / 2);
+    /* Calculate position from the top */
+    /* margin: 0 auto;
+    /* Center the pagination */
+}
+
+.date-error { 
+    display: none;
+    color: red;
+}
+
+.order-body td{
+    font-size: 14px;
+}
+
+.pagination-button {
+    height: 30px;
+    width: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-green);
+    color: var(--primary-cream);
+    font-weight: bolder;
+}
+
+.orders {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(229, 229, 229, 0.377);
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 90px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+table tbody td a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+table tbody td a:hover {
+    text-decoration: underline;
+}

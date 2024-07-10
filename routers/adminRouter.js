@@ -1,15 +1,20 @@
-const addCategoryController = require('../../controllers/admin/adminAddCategory')
-const productController = require('../../controllers/admin/adminAddProduct')
-const categoryController = require('../../controllers/admin/categoryController')
-const upload = require('../../middlewares/multer')
+const addCategoryController = require('../controllers/admin/adminAddCategory')
+const productController = require('../controllers/admin/adminAddProduct')
+const categoryController = require('../controllers/admin/categoryController')
+const adminController = require('../controllers/admin/adminController')
+const upload = require('../middlewares/multer')
 
 const express = require('express')
 const router = express.Router()
 
 //routers for rendering pages
-router.get('/user', (req, res) => {
-      res.render('user/index-2')
-})
+router.get('/orders', adminController.showOrder)
+      .get('/getOrders' , adminController.getOrders)
+
+router.post('/order-update' , adminController.orderUpdate)
+      // .post('/deliver-order' , adminController.deliverOrder)
+
+.get('/coupons' , categoryController.showCoupons)
 router.get('/showProducts', productController.showProducts)
       .get('/addProduct', productController.getAddProduct)
       .get('/showCategories', categoryController.showCategories)

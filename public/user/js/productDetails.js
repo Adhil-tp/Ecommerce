@@ -9,6 +9,8 @@ const wishlistIcon = document.querySelector('.wishlist-icon')
 const wishlistAction = document.querySelector('.wishlist-action')
 const productStock = document.querySelector('.product-stock')
 const cartCount = document.querySelector('.cart-count')
+const buyNow = document.querySelector('.buy-now')
+
 
 function showPopup(element, success, message) {
     element.style.display = 'flex'
@@ -108,7 +110,19 @@ addToCartButton.addEventListener('click', async () => {
     plus.addEventListener('click', incrementQuantity)
 })
 
+buyNow.addEventListener('click', (event) => {
+    let productQuantity = document.querySelector('.product-quantity').value
+    const productId = event.target.dataset.productid
+    console.log(productQuantity , productId)
+    if(productQuantity > 0){
+        window.location.href =`/user/checkout?productId=${productId}&quantity=${productQuantity}`
+    }else if (productQuantity == 0){
+        window.location.href =`/user/checkout?productId=${productId}&quantity=${1}`
+    }
+    
+})
 
+// href="/user/checkout?price=<%=product.offerPrice ? product.offerPrice : product.price %>&productId=<%= product._id %>"
 addToWishlistButtons.forEach(button => {
     button.addEventListener('click', wishListOperation)
 })

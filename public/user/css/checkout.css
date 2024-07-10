@@ -1,0 +1,177 @@
+.checkout-section {
+    padding: 100px 0;
+}
+
+#post-office,
+#post-office option {
+    border: 1px solid #ededed;
+    border-radius: 3px;
+    background: 0 0;
+    height: 40px;
+    width: 100%;
+    padding: 0 20px;
+    color: #777;
+    outline: 0;
+}
+
+
+input:disabled {
+    color: grey !important;
+    border: 2px solid grey;
+}
+
+.address-form {
+    display: none;
+}
+
+.address-input {
+    width: 15px;
+}
+
+.relative {
+    position: relative;
+}
+
+.address {
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #eaeaec;
+    margin-bottom: 8px;
+    vertical-align: top;
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(40, 44, 63, .2);
+    position: relative;
+    cursor: pointer;
+}
+
+.address-details p {
+    height: min-content;
+    padding: 0;
+    margin: 0;
+}
+
+.input-parent input {
+    top: 5px;
+    height: min-content;
+    position: absolute;
+}
+
+/* .hello {
+    display: flex !important; */
+/* } */
+
+.message {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    position: fixed;
+    gap: 10px;
+    display: none ;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    background-color: white;
+    width: 400px;
+    border: 1px solid #8b86864d;
+    box-shadow: 0 0 7px 1px;
+    border-radius: 3px;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.message-animation {
+    animation: message none 2s;
+}
+
+@keyframes message {
+    0% {
+        display: flex;
+        opacity: 0%;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    20% , 80% {
+        opacity: 100%;
+        display: flex;
+    }
+    
+    100% {
+        opacity: 0%;
+        display: flex;
+        top: 85%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+.message-status , .message-message {
+   margin: 0;
+}
+.strong{
+    font-weight: bolder;
+}
+.address-options button{
+    border: #777 1px solid;
+    border-radius: 4px;
+    font-weight: 700;
+    color: rgb(88, 88, 88) !important;
+}
+
+.coupon_code{
+    margin-top: 0;
+}
+
+
+
+.coupon {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ededed;
+    /* height:100px; */
+}
+
+.promo-code {
+    border: 1px solid #ededed;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px ;
+}
+.coupon_inner{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.coupon-child{
+    display: flex;
+    flex: 2;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.coupon p , .coupon h2 ,.coupon a  {
+    margin: 0;
+    padding: 10px;
+}
+.coupon h2{
+    font-weight: bolder;
+}
+.discount-percentage {
+    font-size: 44px;
+}
+
+.gap-30 {
+    gap: 30px;
+}
+
+.disabled {
+    pointer-events: none; /* Prevents click events */
+    opacity: 0.5; /* Makes the button appear faded */
+    cursor: not-allowed;
+}
