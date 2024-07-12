@@ -14,7 +14,7 @@ const path = require('path')
 const { isDataView } = require('util/types')
 const wishlist = require('../../model/wishlist')
 const product = require('../../model/product')
-const sendMail = require('../../config/nodemailer')
+const sendMail = require('../../utils/nodemailer')
 const crypto = require("crypto")
 
 const dotenv = require('dotenv')
@@ -38,7 +38,7 @@ async function showProducts(req, res) {
         // console.log(req.query)
         const { subCatId } = req.query
         let products
-        req.session.userId = '66861c0a218cd412aa16c9b5'
+        // req.session.userId = '66861c0a218cd412aa16c9b5'
         const { userId } = req.session
         const userCart = await Cart.findOne({ user: userId })
         const cartLength = userCart ? userCart.products.length : 0
@@ -54,17 +54,16 @@ async function showProducts(req, res) {
         const categories = await category.find({})
         const subCategories = await subCategory.find({})
         const productLength = Math.ceil(allProducts / 30)
-        res.render('user/products', { title: 'products', products, categories, productLength, subCategories, cartLength, wishListLength })
+        res.render('user/products', { title: 'products', products, categories, productLength, subCategories, cartLength, wishListLength, isLoggedIn: req.session.isLoggedIn })
         // console.log('first')
     } catch (err) {
         console.log(err.message)
     }
 }
-
 async function showHome(req, res) {
     try {
-        req.session.userId = '66861c0a218cd412aa16c9b5'
-        const { userId } = req.session
+        // req.session.userId = '66861c0a218cd412aa16c9b5'
+        const { userId, isLoggedIn } = req.session
         const userCart = await Cart.findOne({ user: userId })
         const cartLength = userCart ? userCart.products.length : 0
         const wishList = await Wishlist.findOne({ user: userId })
@@ -73,18 +72,17 @@ async function showHome(req, res) {
         const subCategories = await subCategory.find({})
         const productLength = await Product.find().count()
         const newProducts = await Product.find().skip(productLength - 8).limit(8)
-        res.render('user/home', { title: 'home', categories, subCategories, newProducts, cartLength, wishListLength })
+        const bestSellers = await Product.find().sort({ sold: -1 }).limit(4)
+        res.render('user/home', { title: 'home', categories, subCategories, newProducts, cartLength, wishListLength, isLoggedIn: req.session?.isLoggedIn, bestSellers })
     } catch (err) {
         console.log(err)
     }
 }
-
 async function showProductsBySubCategory(req, res) {
     const { subCategoryId } = req.params
     console.log(subCategoryId)
     const products = await Product.find({ subCategory: subCategoryId }).limit(30)
 }
-
 async function getProductsByPagination(req, res) {
     try {
         let { paginationValue, chosenCategoryId } = req.params
@@ -119,7 +117,7 @@ async function getProductsByPagination(req, res) {
 }
 async function showProductDetails(req, res) {
     try {
-        req.session.userId = '66861c0a218cd412aa16c9b5'
+        // req.session.userId = '66861c0a218cd412aa16c9b5'
         const { userId } = req.session
         const { productId } = req.params
         // req.session.selectedProductId = productId
@@ -151,11 +149,22 @@ async function showProductDetails(req, res) {
         const categoryName = productCategoryName[0].name
         // console.log('first')
         const product = await Product.findOne({ disabled: false, _id: productId })
+        const relatedProducts = await Product.find({ collection: product.collection }).limit(8)
         const userCart = await Cart.findOne({ user: userId })
-        // console.log(userCart)
         const cartLength = userCart ? userCart?.products?.length : 0
         if (product) {
-            return res.render('user/productDetails', { title: 'productDetails', categories, subCategories, product, categoryName, cartLength, isInWishlist, wishListLength })
+            return res.render('user/productDetails', {
+                title: 'productDetails',
+                categories,
+                subCategories,
+                product,
+                categoryName,
+                cartLength,
+                isInWishlist,
+                wishListLength,
+                relatedProducts,
+                isLoggedIn: req.session.isLoggedIn
+            })
         }
         res.json({ error: true, message: 'Error fetching data.' })
     } catch (err) {
@@ -165,7 +174,7 @@ async function showProductDetails(req, res) {
 }
 async function showCart(req, res) {
     try {
-        req.session.userId = '66861c0a218cd412aa16c9b5'
+        // req.session.userId = '66861c0a218cd412aa16c9b5'
         const { userId } = req.session
         const userCart = await Cart.findOne({ user: userId })
         const wishList = await Wishlist.findOne({ user: userId })
@@ -206,18 +215,20 @@ async function showCart(req, res) {
         const userCoupons = await Coupon.find({ usableFor: userId })
         const categories = await category.find({})
         const subCategories = await subCategory.find({})
-        res.render('user/cart', { title: 'cart', categories, subCategories, cartLength, total: userCart ? userCart.total : 67676, discounctPrice: discounctPrice ? discounctPrice.toFixed(2) : 0, userCartProducts, wishListLength, userCoupons })
+        res.render('user/cart', { title: 'cart', categories, subCategories, cartLength, total: userCart ? userCart.total : 67676, discounctPrice: discounctPrice ? discounctPrice.toFixed(2) : 0, userCartProducts, wishListLength, userCoupons, isLoggedIn: req.session.isLoggedIn })
     } catch (err) {
         console.log(err.message)
     }
 }
 async function addToCart(req, res) {
     try {
-        req.session.userId = '66861c0a218cd412aa16c9b5'
+        // req.session.userId = '66861c0a218cd412aa16c9b5'
         const { userId } = req.session
         const { productId, quantity } = req.params
         console.log('product id and quantity', productId, quantity)
-
+        if (!req.session.isLoggedIn) {
+            return res.status(200).json({ success: false, isLoggedIn: req.session?.isLoggedIn })
+        }
         if (productId) {
             const cart = await Cart.findOne({ user: userId })
             const product = await Product.findOne({ _id: productId })
@@ -277,7 +288,6 @@ async function addToCart(req, res) {
         res.json({ success: false, message: 404 })
     }
 }
-
 async function deleteCartProduct(req, res) {
     try {
         const { productId } = req.params
@@ -370,7 +380,7 @@ async function showCheckOut(req, res) {
         const { productId, quantity } = req.query
         const categories = await category.find({})
         const subCategories = await subCategory.find({})
-        req.session.userId = '66861c0a218cd412aa16c9b5'
+        // req.session.userId = '66861c0a218cd412aa16c9b5'
         const { userId } = req.session
         const userCart = await Cart.findOne({ user: userId })
         const cartLength = userCart ? userCart.products.length : 0
@@ -379,7 +389,7 @@ async function showCheckOut(req, res) {
         const addresses = await Address.find({ user: userId })
 
         let products
-        const userCoupons = await Coupon.find({$or : [{usableFor : userId} , {usableFor  : 'all'}]})
+        const userCoupons = await Coupon.find({ $or: [{ usableFor: userId }, { usableFor: 'all' }] })
         console.log(userCoupons)
         if (productId) {
             products = await Product.aggregate([
@@ -390,7 +400,7 @@ async function showCheckOut(req, res) {
                 },
                 { $addFields: { cartQuantity: parseInt(quantity) } }
             ])
-            
+
             req.session.quantity = quantity
             req.session.isCartPurchase = false
             req.session.buyingProduct = productId
@@ -433,12 +443,11 @@ async function showCheckOut(req, res) {
         }, 0)
         // console.log(products)
         req.session.payable = payable > 500 ? payable : payable + 50
-        res.render('user/checkout', { title: 'checkout', wishListLength, cartLength, categories, subCategories, products, addresses, userCoupons })
+        res.render('user/checkout', { title: 'checkout', wishListLength, cartLength, categories, subCategories, products, addresses, userCoupons, isLoggedIn: req.session?.isLoggedIn })
     } catch (err) {
         console.log(err.message)
     }
 }
-
 async function addAddress(req, res) {
     try {
         console.log(req.body)
@@ -462,8 +471,6 @@ async function addAddress(req, res) {
         console.log(error.message)
     }
 }
-
-
 async function removeAddress(req, res) {
     try {
         const { addressId } = req.params
@@ -514,6 +521,7 @@ async function verifyPayment(req, res) {
                     req.session.userCartProducts = null
                     if (userCartProducts.length) {
                         // const userPurchaseList = await User.findOne({ _id: userId })
+                        const DateNow = new Date().toLocaleDateString('en-GB')
                         await User.updateOne(
                             { _id: userId },
                             {
@@ -525,10 +533,13 @@ async function verifyPayment(req, res) {
                                         }))
                                     }
                                 },
-                                $set: { lastPurchaseDate: new Date().toLocaleString('en-GB') }
+                                $set: { lastPurchaseDate: DateNow }
                             })
                         for (const product of userCartProducts) {
                             // const currentDate = Date.now().toLocaleString('en-GB')
+                            console.log(userCartProducts)
+
+                            await Product.updateOne({ _id: product._id }, { $inc: { sold: product.cartQuantity } })
                             const newOrder = new Order({
                                 user: userId,
                                 product: product._id,
@@ -564,7 +575,7 @@ async function verifyPayment(req, res) {
                     console.log('paying ', req.session.payable)
                     const negativeQuantity = -quantity
                     console.log(quantity, buyingProduct, negativeQuantity, typeof negativeQuantity)
-                    await Product.updateOne({ _id: buyingProduct }, { $inc: { stock: negativeQuantity } })
+                    await Product.updateOne({ _id: buyingProduct }, { $inc: { stock: negativeQuantity }, $inc: { sold: quantity } })
                 }
                 if (req.session?.payable > 10000) {
                     console.log('new coupon creating ')
@@ -603,6 +614,9 @@ async function verifyPayment(req, res) {
 }
 async function addToWishlist(req, res) {
     try {
+        if (!req.session.isLoggedIn) {
+            return res.status(200).json({ success: false, isLoggedIn: req.session?.isLoggedIn })
+        }
         console.log(req.query)
         const { productId } = req.query
         const { userId } = req.session
@@ -628,13 +642,9 @@ async function addToWishlist(req, res) {
         res.status(500).json({ success: false })
     }
 }
-async function getLogin(req, res) {
-
-    res.render('user/login', { title: 'login' })
-}
 async function showWishlist(req, res) {
     try {
-        req.session.userId = '66861c0a218cd412aa16c9b5'
+        // req.session.userId = '66861c0a218cd412aa16c9b5'
         const { userId } = req.session
         const products = await Wishlist.aggregate([
             { $match: { user: mongoose.Types.ObjectId.createFromHexString(userId) } },
@@ -654,11 +664,10 @@ async function showWishlist(req, res) {
         console.log(error.message)
     }
 }
-
 async function useCoupon(req, res) {
     try {
         const { couponId } = req.query
-        req.session.userId = '66861c0a218cd412aa16c9b5'
+        // req.session.userId = '66861c0a218cd412aa16c9b5'
         const { userId } = req.session
         const couponCheck = await Coupon.findOne({ usableFor: userId, _id: couponId })
 
@@ -687,7 +696,42 @@ async function useCoupon(req, res) {
         console.log(error.message)
     }
 }
+async function sendOTP(req, res) {
+    try {
+        const { email } = req.body
+        console.log('mail is this', email)
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        req.session.mailOTP = {
+            otp,
+            otpTime: Date.now()
+        }
+        await sendMail(email, otp)
+        res.status(200).json({ success: true, message: 'Otp send succesfully.' })
+    } catch (error) {
+        res.status(404).json({ success: false, message: 'Error sending Otp.' })
+        console.log(error.message)
+    }
+}
+async function verifyOTP(req, res) {
+    try {
+        const { otp } = req.body
+        const mailOTP = req.session.mailOTP
+        console.log('this is session mail otp ', req.session.mailOTP)
 
+        if (Date.now() - mailOTP?.otpTime >= 50000) {
+            return res.status(200).json({ success: false, message: 'Otp time expired. Please re-send otp.' })
+        }
+        console.log(otp, mailOTP)
+        if (otp.trim() == mailOTP.otp) {
+            req.session.isMailVerified = true
+            res.status(200).json({ success: true, message: 'Verification success.' })
+            return
+        }
+        res.status(200).json({ success: false, message: 'Otp invalid.' })
+    } catch (error) {
+        res.status(400).json({ success: false, message: 'Something went wrong.' })
+    }
+}
 
 
 module.exports = {
@@ -703,12 +747,12 @@ module.exports = {
     filterByPrice,
     showWishlist,
     addToWishlist,
-    getLogin,
     addAddress,
     removeAddress,
     showCheckOut,
     createOrder,
     verifyPayment,
     useCoupon,
-
+    sendOTP,
+    verifyOTP
 }

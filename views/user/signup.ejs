@@ -3,6 +3,7 @@
 
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,14 +11,19 @@
     <title>HONO - Multi Purpose HTML Template</title>
 
     <link rel="shortcut icon" href="/user/images/favicon.ico" type="image/png">
-    <link rel="stylesheet" href="/user/css/login.css">
+
     <link rel="stylesheet" href="/user/css/vendor/vendor.min.css">
     <link rel="stylesheet" href="/user/css/style.min.css">
+    <link rel="stylesheet" href="/user/css/signup.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 </head>
 
 <body>
+
+    <div class="message hello">
+        <p class="message-status strong">Status</p>
+        <p class="message-message">Message</p>
+    </div>
     <!-- Start Header Area -->
     <header class="header-section d-none d-xl-block">
         <div class="header-wrapper">
@@ -28,7 +34,9 @@
                             <!-- Start Header Logo -->
                             <div class="header-logo">
                                 <div class="logo">
-                                    <a href="/user/home" ><h2 class="graza">Graza</h2></a>
+                                    <a href="/user/home">
+                                        <h2 class="graza">Graza</h2>
+                                    </a>
                                 </div>
                             </div>
                             <!-- End Header Logo -->
@@ -37,8 +45,8 @@
                             <div class="main-menu menu-color--black menu-hover-color--golden">
                                 <nav>
                                     <ul class="category-header">
-                                        
-                                        
+
+
                                         <li>
                                             <a href="about-us.html">About Us</a>
                                         </li>
@@ -82,43 +90,100 @@
             </div>
         </div>
     </header>
-    
-    <div class="message hello">
-        <p class="message-status strong">Status</p>
-        <p class="message-message">Message</p>
+    <!-- Start Header Area -->
+
+    <!-- Start Mobile Header -->
+
+    <!-- End Mobile Header -->
+
+    <!--  Start Offcanvas Mobile Menu Section -->
+    <!-- Start Offcanvas Mobile Menu Section -->
+
+    <!-- Start Offcanvas Addcart Section -->
+    <!-- End  Offcanvas Addcart Section -->
+
+    <!-- Start Offcanvas Mobile Menu Section -->
+
+    <!-- Start Offcanvas Search Bar Section -->
+    <div id="search" class="search-modal">
+        <button type="button" class="close">×</button>
+        <form>
+            <input type="search" placeholder="type keyword(s) here" />
+            <button type="submit" class="btn btn-lg btn-golden">Search</button>
+        </form>
     </div>
-    
+    <!-- End Offcanvas Search Bar Section -->
+
+    <!-- Offcanvas Overlay -->
+
+    <!--     
+    <div class="login-and-signup-button">
+        <button class="login-button">Signup</button>
+    </div> -->
     <div class="customer-login">
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <!--login area start-->
-                <div class="col-lg-6 col-md-6" >
+                <div class="col-lg-6 col-md-6">
                     <div class="account_form login-form" style="display: block;">
-                        <h3>login</h3>
-                        <form  class="">
+                        <h3>Sign up</h3>
+                        <form class="">
+
                             <div class="default-form-box">
-                                <label>Username or email <span>*</span></label>
-                                <input type="text" name="userCred" class="userCred">
+                                <label for="name">New user name<span>*</span></label>
+                                <input type="text" id="name" placeholder="Create a new user name">
                             </div>
-                            <div class="default-form-box">
-                                <label>Passwords <span>*</span></label>
-                                <input type="password" name="password" class="password">
+                            <div class="default-form-box d-flex justify-content-between">
+                                <div class="col-5">
+                                    <label for="password" class="mb-0">Password <span>*</span></label>
+                                    <input type="password" id="password" class="col-12"
+                                        placeholder="Enter your password.">
+                                </div>
+                                <div class="col-5">
+                                    <label for="confirmPassword" class="mb-0">Re-enter password <span>*</span></label>
+                                    <input type="password" id="confirmPassword" class="col-12"
+                                        placeholder="Enter confirm password.">
+                                </div>
                             </div>
-                            <div class="login_submit">
-                                <button class="btn btn-md btn-black-default-hover mb-4 login-user ">login</button>
-                                <!-- <label class="checkbox-default mb-4" for="offer">
+                            <label for="email" >Enter your email <span>*</span></label>
+
+                            <div class="default-form-box d-flex justify-content-between">
+                                <div class="col-8">
+                                    <!-- <label for="email">Email <span>*</span></label> -->
+                                    <input type="text" id="email" placeholder="Enter your email">
+                                </div>
+                                <div class="col-3 justify-content-end">
+                                    <button class="btn btn-black-default-hover col-12" id="send-otp"
+                                        style="height: 100%; ">SEND</button>
+                                </div>
+                            </div>
+
+                            <!-- </div> -->
+                            <div class="default-form-box d-flex justify-content-between">
+                                <div class="col-8">
+                                    <!-- <label for="email">Email <span>*</span></label> -->
+                                    <input type="number" id="otp" placeholder="Enter OTP">
+                                </div>
+                                <div class="col-3 justify-content-end">
+                                    <button class="btn btn-black-default-hover col-12" id="verify-otp"
+                                        style="height: 100%;" disabled>Verify</button>
+                                </div>
+                            </div>
+                            <div class="login_submit d-flex col-12 justify-content-center">
+                                <button class="btn btn-md btn-black-default-hover mb-4 col-8" type="button" disabled>Sign up</button>
+                                    <!-- <label class="checkbox-default mb-4" for="offer">
                                     <input type="checkbox" id="offer">
                                     <span>Remember me</span>
                                 </label> -->
-                                <div class="d-flex justify-content-between mb-3">
+                                <!-- <div class="d-flex justify-content-between">
 
                                     <a href="#">Lost your password?</a>
-                                    <a href="/signup">Don't have an account ? </a>
-                                </div>
+                                    <a href="#">Don/t have an account ? </a>
+                                </div> -->
 
                             </div>
-                            <div class="d-flex col-12 justify-content-center " style="height: min-content;">
-                                <p class="login-error strong mb-0 red"></p>
+                            <div class="d-flex col-12 justify-content-center ">
+                                <p class="signup-error strong">All fields are required</p>
                             </div>
                         </form>
                     </div>
@@ -294,7 +359,8 @@
     <!-- material-scrolltop button -->
     <button class="material-scrolltop" type="button"></button>
 
-    <script src="/user/js/login.js"></script>
+
+    <script src="/user/js/signup.js"></script>
 </body>
 
 

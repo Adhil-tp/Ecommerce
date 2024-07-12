@@ -3,11 +3,14 @@ const productController = require('../controllers/admin/adminAddProduct')
 const categoryController = require('../controllers/admin/categoryController')
 const adminController = require('../controllers/admin/adminController')
 const upload = require('../middlewares/multer')
+const auth = require('../middlewares/auth')
 
 const express = require('express')
 const router = express.Router()
 
 //routers for rendering pages
+
+router.use(auth.adminCheck)
 router.get('/orders', adminController.showOrder)
       .get('/getOrders' , adminController.getOrders)
 

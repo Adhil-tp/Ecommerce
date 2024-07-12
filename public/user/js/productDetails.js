@@ -73,6 +73,8 @@ async function wishListOperation(event) {
                 wishlistAction.textContent = 'Add to wishlist'
             }
             wishlistCount.textContent = data.wishListLength
+        }if(!data.success && !data.isLoggedIn){
+            window.location.href ='/login'
         }
     } catch (err) {
         console.log(err)
@@ -103,7 +105,10 @@ addToCartButton.addEventListener('click', async () => {
             cartCount.textContent = data.cartLength.toString()
         }
 
-    } else if (!data.success) {
+    }else if(!data.success && !data.isLoggedIn) {
+        window.location.href = '/login'
+    }
+    else if (!data.success) {
         showPopup(quantityModal, data.success, data.message)
     }
     minus.addEventListener('click', decrementQuantity)

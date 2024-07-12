@@ -2,7 +2,12 @@ const express = require('express')
 const userController = require('../controllers/user/userController')
 const { check, validationResult } = require('express-validator')
 const userRouter = express.Router()
+const auth = require('../middlewares/auth')
 
+
+const mailValidationRules = [
+    check('email').isEmail().withMessage('Enter a valid email address')
+]
 const userValidationRules = [
     check('firstName').notEmpty().withMessage('First name is required'),
     check('lastName').notEmpty().withMessage('Last name is required'),
@@ -16,7 +21,14 @@ const userValidationRules = [
     check('email').isEmail().withMessage('Email is not valid'),
     check('phone').isLength({ min: 10, max: 10 }).withMessage('Phone number must be between 10 and 15 digits')
 ];
-
+const mailValidator = (req, res, next) => {
+    const errors = validationResult(req);
+    console.log(req.body)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    next();
+}
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     console.log(req.body)
@@ -26,27 +38,35 @@ const validate = (req, res, next) => {
     next();
 };
 
+
+
+userRouter.delete('/deleteCartProduct/:productId', userController.deleteCartProduct)
+    .delete('/removeAddress/:addressId', userController.removeAddress)
+
+userRouter.use(auth.userCheck)
+
+
 userRouter.get('/showProducts', userController.showProducts)
     .get('/productDetails/:productId', userController.showProductDetails)
     .get('/home', userController.showHome)
     .get('/api/getProductsByPagination/:paginationValue/:chosenCategoryId', userController.getProductsByPagination)
     .get('/showProductsBySubCategory/:subCategoryId', userController.showProductsBySubCategory)
-    .get('/cart', userController.showCart)
-    .get('/checkout', userController.showCheckOut)
-    .get('/wishlist', userController.showWishlist)
     .get(`/api/getProductByCategory/:chosenCategoryId`, userController.getProductsByCategory)
     .get('/api/filterByPrice/:chosenCategoryId/:priceRange', userController.filterByPrice)
-    .get('/login', userController.getLogin)
-
-userRouter.delete('/deleteCartProduct/:productId', userController.deleteCartProduct)
-            .delete('/removeAddress/:addressId' , userController.removeAddress)
-
 
 userRouter.post('/addToCart/:productId/:quantity', userController.addToCart)
     .post('/addToWishlist', userController.addToWishlist)
     .post('/addAddress', userValidationRules, validate, userController.addAddress)
     .post('/create-order', userController.createOrder)
     .post('/payment/verify-payment', userController.verifyPayment)
-    .post('/useCoupon' , userController.useCoupon)
+    .post('/useCoupon', userController.useCoupon)
+    .post('/sendOtp', mailValidationRules, mailValidator, userController.sendOTP)
+    .post('/verifyOtp', userController.verifyOTP)
+
+
+userRouter.get('/cart', userController.showCart)
+    .get('/checkout', userController.showCheckOut)
+    .get('/wishlist', userController.showWishlist)
+
 
 module.exports = userRouter

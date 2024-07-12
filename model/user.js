@@ -17,7 +17,9 @@ const userSchema = mongoose.Schema({
             message: props => `${props.value} is not valid email`
         }
     },
-    lastPurchaseDat: { type: Date  ,default : null},
+    isAdmin : {type : Boolean , default : false},
+    password: { type: String, required: true },
+    lastPurchaseDat: { type: Date, default: null },
     purchasedProducts: [{
         productId: { type: mongoose.Types.ObjectId },
         quantity: { type: Number, default: 0 }

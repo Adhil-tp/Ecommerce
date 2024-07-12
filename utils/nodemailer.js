@@ -22,9 +22,11 @@ async function sendMail(email, otp) {
             from: 'mohamedadhiltp1944@gmail.com',
             to: email,
             subject: `Order confirmation`,
-            text: `Greeting from Graza , your otp for placing the order is ${otp}`
+            text: `Greeting from Graza , your otp for verifying the email id is ${otp}, Verify with this otp to continue shopping.
+                Thank you`
         }
         const info = await transporter.sendMail(mailOptions)
+        
         console.log(info.response)
     } catch (error) {
         console.log('node mailer ', error.message)

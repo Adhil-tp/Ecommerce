@@ -39,11 +39,12 @@
                             data-aos-delay="400">
                             <h5 class="title">CATEGORIES</h5>
                             <ul class="footer-nav">
-                                <li><a href="#">Decorative</a></li>
-                                <li><a href="#">Kitchen utensils</a></li>
-                                <li><a href="#">Chair & Bar stools</a></li>
-                                <li><a href="#">Sofas and Armchairs</a></li>
-                                <li><a href="#">Interior lighting</a></li>
+                                <% if (categories) { %>
+                                    <% categories.forEach(category => { %>
+                                        <li><a href="#"><%= category.name %></a></li>
+                                    <% }) %>
+                                    <% } %>
+                                
                             </ul>
                         </div>
                         <!-- End Footer Single Item -->
@@ -54,12 +55,11 @@
                             data-aos-delay="600">
                             <h5 class="title">ABOUT US</h5>
                             <div class="footer-about">
-                                <p>We are a team of designers and developers that create high quality Magento,
-                                    Prestashop, Opencart.</p>
+                                <p>We are a brand who provides quality over products</p>
 
                                 <address class="address">
-                                    <span>Address: Your address goes here.</span>
-                                    <span>Email: demo@example.com</span>
+                                    <span>Address: second floor , <br> HiLite business park</span><br>
+                                    <span>Email: grazafashion@gmail.com</span>
                                 </address>
                             </div>
                         </div>

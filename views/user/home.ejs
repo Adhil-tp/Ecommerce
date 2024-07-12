@@ -196,68 +196,44 @@
     <!-- End Product Default Slider Section -->
 
     <!-- Start Banner Section -->
-    <div class="banner-section">
+    <div class="product-default-slider-section section-top-gap-100 section-fluid section-inner-bg">
+       
+        <!-- Start Section Content Text Area -->
+        <div class="section-title-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-content-gap">
+                            <div class="secton-content">
+                                <h3 class="section-title">BEST SELLERS</h3>
+                                <p>Add our best sellers to your weekly lineup.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Start Section Content Text Area -->
         <div class="banner-wrapper clearfix">
-            <!-- Start Banner Single Item -->
-            <div class="banner-single-item banner-style-4 banner-animation banner-color--golden float-left img-responsive">
-                <div class="image">
-                    <img class="img-fluid" src="/user/images/banner/banner-style-4-img-1.jpg" alt="">
-                </div>
-                <a href="product-details-default.html" class="content">
-                    <div class="inner">
-                        <h4 class="title">Bar Stool</h4>
-                        <h6 class="sub-title">20 products</h6>
+        <!-- <div class="products-list"> -->
+            <% for( let index = 0; index <4; index++ ) { %>
+                <div class="banner-single-item banner-style-4 banner-animation banner-color--golden float-left img-responsive">
+                    <div class="image">
+                        <img class="img-fluid" src="/images/products/<%= newProducts[index].mainImage%>" alt="">
                     </div>
-                    <span class="round-btn"><i class="ion-ios-arrow-thin-right"></i></span>
-                </a>
-            </div>
-            <!-- End Banner Single Item -->
-            <!-- Start Banner Single Item -->
-            <div class="banner-single-item banner-style-4 banner-animation banner-color--golden float-left img-responsive">
-                <div class="image">
-                    <img class="img-fluid" src="/user/images/banner/banner-style-4-img-2.jpg" alt="">
+                    <a href="/user/productDetails/<%= newProducts[index]._id %>" class="content">
+                        <div class="inner col-8">
+                            <h4 class="title"><%= newProducts[index].name%></h4>
+                            <h6 class="sub-title"><%= newProducts[index].stock%> left</h6>
+                        </div>
+                        <span class="round-btn"><i class="ion-ios-arrow-thin-right"></i></span>
+                    </a>
                 </div>
-                <a href="product-details-default.html" class="content">
-                    <div class="inner">
-                        <h4 class="title">Armchairs</h4>
-                        <h6 class="sub-title">20 products</h6>
-                    </div>
-                    <span class="round-btn"><i class="ion-ios-arrow-thin-right"></i></span>
-                </a>
-            </div>
-            <!-- End Banner Single Item -->
-            <!-- Start Banner Single Item -->
-            <div class="banner-single-item banner-style-4 banner-animation banner-color--golden float-left img-responsive">
-                <div class="image">
-                    <img class="img-fluid" src="/user/images/banner/banner-style-4-img-3.jpg" alt="">
-                </div>
-                <a href="product-details-default.html" class="content">
-                    <div class="inner">
-                        <h4 class="title">lighting</h4>
-                        <h6 class="sub-title">20 products</h6>
-                    </div>
-                    <span class="round-btn"><i class="ion-ios-arrow-thin-right"></i></span>
-                </a>
-            </div>
-            <!-- End Banner Single Item -->
-            <!-- Start Banner Single Item -->
-            <div class="banner-single-item banner-style-4 banner-animation banner-color--golden float-left img-responsive">
-                <div class="image">
-                    <img class="img-fluid" src="/user/images/banner/banner-style-4-img-4.jpg" alt="">
-                </div>
-                <a href="product-details-default.html" class="content">
-                    <div class="inner">
-                        <h4 class="title">Easy chairs</h4>
-                        <h6 class="sub-title">20 products</h6>
-                    </div>
-                    <span class="round-btn"><i class="ion-ios-arrow-thin-right"></i></span>
-                </a>
-            </div>
-            <!-- End Banner Single Item -->
+            <% } %>
         </div>
     </div>
     <!-- End Banner Section -->
-
+    
     <!-- Start Blog Slider Section -->
     <div class="product-default-slider-section section-top-gap-100 section-fluid section-inner-bg">
        
@@ -277,52 +253,22 @@
             </div>
         </div>
         <!-- Start Section Content Text Area -->
-        <div class="products-list">
-            <div class="single-product ">
-                <img src="/user/images/product/default/home-1/default-10.jpg" alt="">
-                <div class="product-details">
-                    <h3>Product name</h3>
-                    <div class="product-buy-options" >
-                        <p>Add to cart</p>
-                        <p>$45</p>
+        <div class="banner-wrapper clearfix">
+        <!-- <div class="products-list"> -->
+            <% bestSellers.forEach(product => { %>
+                <div class="banner-single-item banner-style-4 banner-animation banner-color--golden float-left img-responsive">
+                    <div class="image">
+                        <img class="img-fluid" src="/images/products/<%= product.mainImage%>" alt="">
                     </div>
-
+                    <a href="/user/productDetails/<%= product._id %>" class="content">
+                        <div class="inner col-8">
+                            <h4 class="title"><%= product.name%></h4>
+                            <h6 class="sub-title"><%= product.sold%> sold</h6>
+                        </div>
+                        <span class="round-btn"><i class="ion-ios-arrow-thin-right"></i></span>
+                    </a>
                 </div>
-            </div>
-            <div class="single-product ">
-                <img src="/user/images/product/default/home-1/default-10.jpg" alt="">
-                <div class="product-details">
-                    <h3>Product name</h3>
-                    <div class="product-buy-options" >
-                        <p>Add to cart</p>
-                        <p>$45</p>
-                    </div>
-
-                </div>
-            </div>
-            <div class="single-product ">
-                <img src="/user/images/product/default/home-1/default-10.jpg" alt="">
-                <div class="product-details">
-                    <h3>Product name</h3>
-                    <div class="product-buy-options" >
-                        <p>Add to cart</p>
-                        <p>$45</p>
-                    </div>
-
-                </div>
-            </div>
-            <div class="single-product ">
-                <img src="/user/images/product/default/home-1/default-10.jpg" alt="">
-                <div class="product-details">
-                    <h3>Product name</h3>
-                    <div class="product-buy-options" >
-                        <p>Add to cart</p>
-                        <p>$45</p>
-                    </div>
-
-                </div>
-            </div>
-            <!-- Add more single-product items here -->
+            <% }) %>
         </div>
     </div>
     <!-- End Blog Slider Section -->
