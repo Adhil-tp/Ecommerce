@@ -41,9 +41,9 @@ mongoose.connect(MongoURL)
 
 
 
-app.use('https://musical-pithivier-ed3726.netlify.app/admin', adminRouter)
-app.use('https://musical-pithivier-ed3726.netlify.app/user', userRouter)
-app.use('https://musical-pithivier-ed3726.netlify.app/' , authRouter )
+app.use('/admin', adminRouter)
+app.use('/user', userRouter)
+app.use('/' , authRouter )
 
 
 app.listen(port, () => {
