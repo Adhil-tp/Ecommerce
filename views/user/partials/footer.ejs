@@ -12,27 +12,29 @@
                             <ul class="footer-nav">
                                 <li><a href="#">Delivery Information</a></li>
                                 <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="contact-us.html">Contact</a></li>
+                                <li><a href="/user/contactUs">Contact</a></li>
                                 <li><a href="#">Returns</a></li>
                             </ul>
                         </div>
                         <!-- End Footer Single Item -->
                     </div>
-                    <div class="col-lg-3 col-sm-6 mb-6">
-                        <!-- Start Footer Single Item -->
-                        <div class="footer-widget-single-item footer-widget-color--golden" data-aos="fade-up"
-                            data-aos-delay="200">
-                            <h5 class="title">MY ACCOUNT</h5>
-                            <ul class="footer-nav">
-                                <li><a href="my-account.html">My account</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
-                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                <li><a href="faq.html">Frequently Questions</a></li>
-                                <li><a href="#">Order History</a></li>
-                            </ul>
+                    <% if (isLoggedIn) { %>
+                        <div class="col-lg-3 col-sm-6 mb-6">
+                            <!-- Start Footer Single Item -->
+                            <div class="footer-widget-single-item footer-widget-color--golden" data-aos="fade-up"
+                                data-aos-delay="200">
+                                <h5 class="title">MY ACCOUNT</h5>
+                                <ul class="footer-nav">
+                                    <li><a href="my-account.html">My account</a></li>
+                                    <li><a href="/user/wishlist">Wishlist</a></li>
+                                    <li><a href="/user/cart">Cart</a></li>
+                                    <li><a href="/user/privacy-policy">Privacy Policy</a></li>
+                                    <li><a href="#">Order History</a></li>
+                                </ul>
+                            </div>
+                            <!-- End Footer Single Item -->
                         </div>
-                        <!-- End Footer Single Item -->
-                    </div>
+                    <% } %>
                     <div class="col-lg-3 col-sm-6 mb-6">
                         <!-- Start Footer Single Item -->
                         <div class="footer-widget-single-item footer-widget-color--golden" data-aos="fade-up"
@@ -132,6 +134,33 @@
 
 <script src="/user/js/<%= title%>.js"></script>
 <script src="/user/js/header.js"></script>
+
+<!-- 
+<script src="/user/js/assets/jquery-3.5.1.min.js"></script>
+    <script src="/user/js/assets/modernizr-3.11.2.min.js"></script>
+    <script src="/user/js/assets/jquery-migrate-3.3.0.min.js"></script>
+    <script src="/user/js/assets/popper.min.js"></script>
+    <script src="/user/js/assets/bootstrap.min.js"></script>
+    <script src="/user/js/assets/jquery-ui.min.js"></script> 
+
+    <!--Plugins JS-->
+    <!-- <script src="/user/js/assets/swiper-bundle.min.js"></script>
+    <script src="/user/js/assets/material-scrolltop.js"></script>
+    <script src="/user/js/assets/jquery.nice-select.min.js"></script>
+    <script src="/user/js/assets/jquery.zoom.min.js"></script>
+    <script src="/user/js/assets/venobox.min.js"></script>
+    <script src="/user/js/assets/jquery.waypoints.js"></script>
+    <script src="/user/js/assets/jquery.lineProgressbar.js"></script>
+    <script src="/user/js/assets/aos.min.js"></script>
+    <script src="/user/js/assets/jquery.instagramFeed.js"></script>
+    <script src="/user/js/assets/ajax-mail.js"></script> -->
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <!-- <script src="/user/js/assets/vendor.min.js"></script>
+    <script src="/user/js/assets/plugins.min.js"></script> -->
+
+    <!-- Main JS -->
+    <!-- <script src="/user/js/assets/main.js"></script> -->
 </body> 
 
 </html>

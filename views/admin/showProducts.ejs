@@ -44,16 +44,16 @@
                                 </h4>
                                 <div class="df gap">
                                     <% if (element.offerPrice) { %>
-                                        <h3 style="color: green;">
-                                            <%= element.offerPrice%>
-                                        </h3>
-                                        <h3><del class="red">
-                                                <%= element.price %>
-                                            </del></h3>
+                                        <h4 style="color: green;">
+                                            ₹<%= element.offerPrice%>
+                                        </h4>
+                                        <h4><del class="red">
+                                            ₹<%= element.price %>
+                                            </del></h4>
                                         <% }else { %>
-                                            <h3>
-                                                <%= element.price %>
-                                            </h3>
+                                            <h4>
+                                                ₹<%= element.price %>
+                                            </h4>
                                             <% } %>
                                 </div>
                             </div>

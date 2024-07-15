@@ -2469,6 +2469,9 @@ progress {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch
     }
+    nav{
+        display: none;
+    }
 }
 
 @media (max-width:991.98px) {
@@ -19410,7 +19413,7 @@ table {
 .main-menu nav>ul>li>a {
     display: block;
     line-height: 24px;
-    padding: 25px 20px;
+    padding: 25px 15px;
     font-size: 14px;
     line-height: 30px;
     text-transform: uppercase;
@@ -19820,6 +19823,7 @@ table {
     .footer-bg {
         padding-top: 80px
     }
+    
 }
 
 @media (min-width:992px) {

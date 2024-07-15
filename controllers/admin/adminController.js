@@ -1,8 +1,9 @@
 const category = require('../../model/category')
 const subCategory = require('../../model/subCategory')
 const collection = require('../../model/collection')
-const product = require('../../model/product')
+const Product = require('../../model/product')
 const Order = require('../../model/order')
+const User = require('../../model/user')
 const mongoose = require('mongoose')
 const fs = require('fs')
 const path = require('path')
@@ -51,22 +52,123 @@ async function showOrder(req, res) {
         console.log(error.message)
     }
 }
+
+async function showDash(req, res) {
+    const chartData = [
+        { label: 'January', value: 10 },
+        { label: 'February', value: 20 },
+        { label: 'March', value: 30 },
+        { label: 'April', value: 30 },
+        { label: 'May', value: 50 },
+        { label: 'June', value: 60 },
+    ];
+    const userSignups = await User.aggregate([
+        {
+            $match: {
+                createdAt: {
+                    $gte: new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+                }
+            }
+        },
+        {
+            $group: {
+                _id: {
+                    year: { $year: "$createdAt" },
+                    month: { $month: "$createdAt" }
+                },
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $sort: { "_id.year": 1, "_id.month": 1 }
+        },
+        {
+            $project: {
+                _id: 0,
+                label: {
+                    $concat: [
+                        {
+                            $arrayElemAt: [
+                                ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                                { $subtract: ["$_id.month", 1] }
+                            ]
+                        },
+                        " ",
+                        { $toString: "$_id.year" }
+                    ]
+                },
+                value: "$count"
+            }
+        }
+    ]);
+    const totalProducts = await Product.countDocuments();
+    const categoryPie = await Product.aggregate([
+        {
+            $lookup: {
+                from: 'categories', // Replace with your category collection name
+                localField: 'category', // The field in the Product model
+                foreignField: '_id', // The field in the Category model
+                as: 'categoryDetails'
+            }
+        },
+        {
+            $unwind: '$categoryDetails'
+        },
+        {
+            $group: {
+                _id: '$categoryDetails.name',
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                category: '$_id',
+                count: 1,
+                percentage: {
+                    $multiply: [
+                        { $divide: ['$count', totalProducts] },
+                        100
+                    ]
+                }
+            }
+        }
+    ])
+    const overallSale = await Product.aggregate([
+        {
+            $match: { sold: { $gt: 0 } } // Match documents where sold quantity is greater than 0
+        },
+        {
+            $group: {
+                _id: null,
+                totalSales: {
+                    $sum: {
+                        $multiply: ["$sold", { $ifNull: ["$offerPrice", "$price"] }]
+                    }
+                }
+            }
+        }
+    ]);
+    console.log(overallSale)
+    res.render('admin/dashboard', { title: 'Dashboard', chartData, userSignups, categoryPie, overallSale })
+}
 async function orderUpdate(req, res) {
     try {
         const { orderId, method } = req.query
         if (orderId) {
             let orderDetails
             orderDetails = await Order.findOne({ _id: orderId })
-            console.log('order details ' , orderDetails)
+            console.log('order details ', orderDetails)
             if (orderDetails.status == 'Pending') {
                 if (method == 'deliver') {
                     await Order.updateOne({ _id: orderId }, { status: 'Delivered' })
                     res.status(200).json({ success: true, message: 'Order Delivered updated.' })
                 } else if (method == 'cancel') {
+                    await Product.updateOne({ _id: orderDetails.product }, { $inc: { stock: orderDetails.quantity } })
                     await Order.updateOne({ _id: orderId }, { status: 'Canceled' })
                     res.status(200).json({ success: true, message: 'Order Canceled succesfully' })
                 }
-            } else if(orderDetails.status == 'Canceled'){
+            } else if (orderDetails.status == 'Canceled') {
                 res.status(200).json({ success: false, message: 'Order already Canceled.' })
             }
         } else {
@@ -150,6 +252,7 @@ async function getOrders(req, res) {
         } else if (pageNumber) {
             try {
                 const skipUpto = (pageNumber - 1) * 20
+                console.log(typeof skipUpto)
                 const orders = await Order.aggregate([
                     {
                         $match: {}
@@ -186,18 +289,20 @@ async function getOrders(req, res) {
                 }
                 res.status(200).json({ success: false, message: 'No orders found.' })
             } catch (error) {
+                console.log('skip ' , error.message)
                 res.status(200).json({ success: false, message: '', error: 404 })
             }
         }
 
 
     } catch (error) {
-        console.log(error.message)
+        console.log('skip',error.message)
     }
 }
 
 module.exports = {
     showOrder,
     orderUpdate,
-    getOrders
+    getOrders,
+    showDash
 }

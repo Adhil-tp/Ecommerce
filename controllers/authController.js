@@ -14,7 +14,6 @@ async function getSignup(req, res) {
 }
 
 async function validateSignup(req, res) {
-    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(200).json({ success: false, errors: errors.array() });
@@ -22,7 +21,6 @@ async function validateSignup(req, res) {
 
     const { name, email, password } = req.body;
     try {
-        console.log('is mail', req.session)
         if (!req.session?.isMailVerified) {
             return res.status(200).json({ success: false, message: 'Verify mail to continue' })
         }
@@ -45,31 +43,25 @@ async function validateSignup(req, res) {
 async function validateLogin(req, res) {
     try {
         const { password, userCred } = req.body
-        console.log(req.body)
         const dupUser = await User.findOne({ $or: [{ name: userCred }, { email: userCred }] })
-        console.log(dupUser)
         if (!dupUser) {
-            console.log('no user')
             return res.status(200).json({ success: false, message: `User doesn't exists` })
         }
         const userPass = dupUser.password
         const passCheck = await bcrypt.compare(password, userPass)
-        console.log('pass check' , passCheck)
         if (passCheck) {
-            console.log('user logged in ')
-            res.status(200).json({ success: true, message: `Verification success.` })
             req.session.isLoggedIn = true
-            console.log(req.session)
             req.session.userId = dupUser._id
-            if(dupUser.isAdmin) req.session.isAdmin = true
+            if (dupUser.isAdmin) { req.session.isAdmin = true }
+            // console.log(req.session)
             req.session.save()
+            res.status(200).json({ success: true, message: `Verification success.`, isAdmin: req.session.isAdmin })
             return
         }
-        console.log('wrong pass')
-        return res.status(200).json({success : false , message : 'Password incorrect'})
+        return res.status(200).json({ success: false, message: 'Password incorrect' })
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({success : false , message : 'Internal server error.'})
+        res.status(500).json({ success: false, message: 'Internal server error.' })
     }
 }
 module.exports = {

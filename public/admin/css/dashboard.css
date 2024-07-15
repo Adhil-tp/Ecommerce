@@ -1,0 +1,35 @@
+.content-side {
+    width: 100%;
+    justify-content: start;
+    align-items: start !important;
+}
+.top-charts {
+    gap: 1rem; /* Adjust as needed for spacing */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* flex-wrap: wrap; */
+    justify-content: start;
+    align-items: start;
+    width: 100% !important;
+    height: auto;
+}
+.top-charts canvas , .top-charts div{
+    border: 1px solid;
+    border-radius: 5px;
+    width: calc(100%) !important;
+    height: 200px !important;
+}
+
+#salesChart {
+    flex-direction: column;
+}
+
+.green{
+    color: green;
+}
+
+@media (max-width: 768px) {
+    .top-charts {
+        grid-template-columns: 1fr !important;
+    }
+}

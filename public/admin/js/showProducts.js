@@ -87,7 +87,7 @@ const showProductsFunction = (data) => {
                 <div>
                     <h4>${element.name}</h4>
                     <div class="df gap">
-                        ${element.offerPrice ? `<h3>${element.offerPrice}</h3><h3><del class="red">${element.price}</del></h3>` : `<h3>${element.price}</h3>`}
+                        ${element.offerPrice ? `<h4>₹${element.offerPrice}</h4><h4><del class="red">₹${element.price}</del></h4>` : `<h4>₹${element.price}</h4>`}
                     </div>
                 </div>
                 <div class="product-buttons df">

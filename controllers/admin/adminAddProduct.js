@@ -212,6 +212,7 @@ module.exports = {
             let { paginationValue, chosenCategoryId } = req.params
             paginationValue = +paginationValue
             const skipFrom = (paginationValue - 1) * 20
+            console.log(typeof skipFrom)
             const limitUpto = 20
             let paginationLength
             let sortedProducts
@@ -232,7 +233,7 @@ module.exports = {
 
 
         } catch (err) {
-            console.log(err.message)
+            console.log('skip',err.message)
             return res.json({ error: true, message: 'something went wrong' })
         }
 

@@ -5,6 +5,6 @@ const wishlistSchema = mongoose.Schema({
     products : [{
         productId : {type : mongoose.Types.ObjectId},
     }]
-})
+} , {timestamps : true})
 
 module.exports = Wishlist = mongoose.model('wishlist' , wishlistSchema) 

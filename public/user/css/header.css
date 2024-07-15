@@ -15,15 +15,28 @@
 
 .graza {
     font-family: 'Rusilla serif Regular' !important;
+    padding: 25px 15px;
 }
 
 .cartsection {
     padding: 60px 0;
 }
 
+.icon-logout {
+    font-family: simple-line-icons;
+    speak: none;
+    font-style: normal;
+    font-weight: 800;
+    font-variant: normal;
+    text-transform: uppercase;
+    line-height: 2;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
 @media (min-width:768px) {
-    .cart-section {
-        padding: 80px 0
+    .sidebar {
+        display: none !important;
     }
 }
 
@@ -41,6 +54,93 @@ footer {
     margin: 0 !important;
 }
 
-.show-nav {
+
+
+@media (max-width:767.98px) {
+    .cart-section {
+        padding: 80px 0
+    }
+    .sidebar {
+        transition: 0.6s;
+        /* display: flex !important; */
+    }
+    .show-sidebar {
+        display: flex !important;
+    }
+    .toggle-nav {
+        display: flex !important;
+    }
+
+    .logout {
+        display: none !important;
+    }
+    .web-nav {
+        display: none;
+    }
+}
+
+.options-and-menu{
+    gap: 20px;
+}
+/* 
+.mega-menu-sub {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.mega-menu-sub a{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    line-height: normal !important;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.522) !important;
+}
+.mega-menu-sub a:hover{
+    color: wheat !important;
+} */
+.sidebar-header{
+    gap: 20px;
+}
+.sidebar {
     display: none;
+    padding: 20px;
+    top: 0;
+    position: fixed;
+    display: none;
+    width: 250px;
+    height: auto;
+    background-color: black;
+    right: 0;
+    z-index: 9999;
+    transition: 0.5s;
+}
+
+.shop-sidebar-list {
+    display: none;
+}
+
+/* @keyframes showAnimation {
+    0%{
+
+    }
+    100%{
+        display: flex !important;
+        flex-direction: column;
+    }
+} */
+.show{
+    display: flex !important;
+    flex-direction: column;
+    animation: showAnimation 0.5s;
+}
+
+.sub-mega-menu-title {
+    font-weight: 600;
+}
+
+.sidebar-sub-name {
+    line-height: 5px !important;
+    line-gap-override: 0;
+    font-size: 12px;
 }

@@ -42,31 +42,35 @@ const validate = (req, res, next) => {
 
 userRouter.delete('/deleteCartProduct/:productId', userController.deleteCartProduct)
     .delete('/removeAddress/:addressId', userController.removeAddress)
-
-userRouter.use(auth.userCheck)
-
-
-userRouter.get('/showProducts', userController.showProducts)
-    .get('/productDetails/:productId', userController.showProductDetails)
+    
+    userRouter.get('/showProducts', userController.showProducts)
     .get('/home', userController.showHome)
+    .get('/productDetails/:productId', userController.showProductDetails)
+    .get('/contactUs', userController.contactUs)
+    .get('/aboutUs', userController.aboutUs)
+    .post('/sendOtp', mailValidationRules, mailValidator, userController.sendOTP)
+    .post('/verifyOtp', userController.verifyOTP)
+    userRouter.use(auth.userCheck)
+    
+    
+    userRouter.get('/orders', userController.showOrders)
     .get('/api/getProductsByPagination/:paginationValue/:chosenCategoryId', userController.getProductsByPagination)
     .get('/showProductsBySubCategory/:subCategoryId', userController.showProductsBySubCategory)
     .get(`/api/getProductByCategory/:chosenCategoryId`, userController.getProductsByCategory)
     .get('/api/filterByPrice/:chosenCategoryId/:priceRange', userController.filterByPrice)
-
-userRouter.post('/addToCart/:productId/:quantity', userController.addToCart)
+    
+    userRouter.post('/addToCart/:productId/:quantity', userController.addToCart)
     .post('/addToWishlist', userController.addToWishlist)
     .post('/addAddress', userValidationRules, validate, userController.addAddress)
     .post('/create-order', userController.createOrder)
     .post('/payment/verify-payment', userController.verifyPayment)
     .post('/useCoupon', userController.useCoupon)
-    .post('/sendOtp', mailValidationRules, mailValidator, userController.sendOTP)
-    .post('/verifyOtp', userController.verifyOTP)
-
-
-userRouter.get('/cart', userController.showCart)
+    
+    
+    userRouter.get('/cart', userController.showCart)
     .get('/checkout', userController.showCheckOut)
     .get('/wishlist', userController.showWishlist)
+    .get('/profile', userController.showProfile)
 
 
 module.exports = userRouter

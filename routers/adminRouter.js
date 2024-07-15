@@ -19,6 +19,7 @@ router.post('/order-update' , adminController.orderUpdate)
 
 .get('/coupons' , categoryController.showCoupons)
 router.get('/showProducts', productController.showProducts)
+      .get('/dashboard' , adminController.showDash)
       .get('/addProduct', productController.getAddProduct)
       .get('/showCategories', categoryController.showCategories)
       .get('/editProduct', productController.editSpecificProductPage)

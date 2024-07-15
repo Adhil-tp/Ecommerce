@@ -1,0 +1,80 @@
+<%- include('./partials/header') %>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to perform this operation?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-success btn-sm" data-bs-dismiss="modal">No</button>
+          <button type="button" value="" class="btn btn-outline-danger btn-sm cancel-order"
+            data-bs-dismiss="modal" aria-label="Close">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="order-section">
+        <div class="cart-table-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table_desc">
+                            <div class="table_page table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Delivering to</th>
+                                            <th>Order Date</th>
+                                            <th>Est. Delivery Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="order-body">
+                                        <% if(orders.length){ %>
+                                            <% orders.forEach(order=> { %>
+                                                <tr class="order-card-<%= order._id %>">
+                                                    <td class="cart_count">
+                                                        <%= order.addressObject?.houseAndStreet %> <br>,
+                                                            <%= order.addressObject?.postOffice%>(PO)
+                                                    </td>
+                                                    <td>
+                                                        <%= order.orderedDate %>
+                                                    </td>
+                                                    <td>
+                                                        <%= order.deliveryDate %>
+                                                    </td>
+                                                    <td>
+                                                        <span>
+                                                            <%= order.status %>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+
+                                                        <button type="button"
+                                                            class="btn btn-outline-danger btn-sm show-cancel-modal <%= `${order.status=='Canceled' || order.status == 'Delivered' ? 'disabled' : '' } ` %> cancel-order-<%= order._id %>"
+                                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                            value="<%= order._id %>">Cancel
+                                                        </button>
+
+
+                                                        <!-- Modal -->
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('./partials/footer') %>

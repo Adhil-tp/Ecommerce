@@ -24,6 +24,6 @@ const userSchema = mongoose.Schema({
         productId: { type: mongoose.Types.ObjectId },
         quantity: { type: Number, default: 0 }
     }]
-})
+}, {timestamps : true})
 
 module.exports = mongoose.model('users', userSchema)

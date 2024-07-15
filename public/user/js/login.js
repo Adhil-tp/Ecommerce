@@ -37,24 +37,35 @@ document.addEventListener('DOMContentLoaded', () => {
             showPopup(messageModal, false, 'Password must be strong.')
             return;
         }
-        console.log('first')
-        const response = await axios.post(`/validateLogin`, { password, userCred })
-        const data = response.data
-        console.log(data)
-        if (!data.success) {
-            // loginError.style.display = 'block'
-            loginError.textContent = data.message
+        try {
+            const response = await axios.post(`/validateLogin`, { password, userCred })
+            console.log('clicked login button')
+            const data = response.data
+            console.log(data)
+            if (!data.success) {
+                // loginError.style.display = 'block'
+                loginError.textContent = data.message
+                setTimeout(() => {
+                    loginError.textContent = ''
+                }, 2000);
+            } else {
+                loginError.textContent = data.message
+                loginError.style.color = 'green'
+                setTimeout(() => {
+                    loginError.textContent = ``
+                    if (data.isAdmin) {
+                        return window.location.href = '/admin/dashboard'
+                    }
+                    window.location.href = '/user/home'
+                }, 2000);
+            }
+        } catch (error) {
+            loginError.textContent = 'Something went wrong, check your internet and try again.'
             setTimeout(() => {
                 loginError.textContent = ''
-            }, 2000);
-        }else{
-            loginError.textContent = data.message
-            loginError.style.color = 'green'
-            setTimeout(() => {
-                loginError.textContent = ``
-                window.location.href = '/user/home'
-            }, 2000);
+            }, 3000);
         }
+
     })
 
 })

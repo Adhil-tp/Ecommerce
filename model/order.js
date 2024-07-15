@@ -11,6 +11,6 @@ const orderSchema = mongoose.Schema({
     paymentMethod : {type : String , required : true},
     address : {type : mongoose.Types.ObjectId , required : true},
     quantity : {type : Number  , required : true , default : 1}
-})
+}  , {timestamps : true})
 
 module.exports = mongoose.model('orders' , orderSchema)

@@ -17,6 +17,6 @@ const productSchema = mongoose.Schema({
     deliveryWithin: { type: Number },
     disabled: { type: Boolean, default: false },
     sold : {type : Number , default : 0}
-})
+} , {timestamps : true})
 
 module.exports = mongoose.model('products', productSchema)

@@ -4,7 +4,6 @@ module.exports = middleWare = {
     adminCheck : (req , res , next) => {
         if(req.session.isLoggedIn){
             if(req.session.isAdmin){
-                console.log('first')
                 next()
             }else{
                 res.redirect('/user/home')
@@ -17,8 +16,7 @@ module.exports = middleWare = {
         if(req.session.isLoggedIn){
             // console.log('is logged in :' , req.session.isLoggedIn )
             if(req.session?.isAdmin){
-                console.log('is admin' , req.session.isAdmin)
-                res.redirect('/admin/showProducts')
+                res.redirect('/admin/dashboard')
             }else{
                 next()
             }
@@ -29,7 +27,7 @@ module.exports = middleWare = {
     loggedInCheck : (req , res , next) => {
         if(req.session.isLoggedIn){
             if(req.session.isAdmin){
-                res.redirect('/admin/showProducts')
+                res.redirect('/admin/dashboard')
             }else{
                 res.redirect('/user/home')
             }
