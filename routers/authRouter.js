@@ -24,6 +24,7 @@ authRouter.get('/logout', (req, res) => {
     res.redirect('/login')
 })
 
+
 authRouter.post('/validateSignup', signupValidate, authController.validateSignup)
 
 
@@ -33,6 +34,9 @@ authRouter.use(auth.loggedInCheck, auth.setCacheControl)
 
 authRouter.get('/signup', authController.getSignup)
     .get('/login', authController.getLogin)
+    .get('/' , (req , res) => {
+        res.redirect('/login')
+    })
 
 
 
